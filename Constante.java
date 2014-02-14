@@ -1,5 +1,5 @@
   
   
   
-public class Constante(
-)
+public class Constante{
+}
