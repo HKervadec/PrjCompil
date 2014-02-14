@@ -1,3 +1,2 @@
-
-public class idConst(
-)
+public class idConst extends Ident{
+}
