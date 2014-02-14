@@ -1,3 +1,2 @@
-
-public class Declaration(
-)
+public class Declaration{
+}
