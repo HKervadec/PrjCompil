@@ -1,4 +1,4 @@
 
-public class idVar extends Ident(
+public class idVar extends Ident{
 
-)
+}

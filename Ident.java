@@ -1,5 +1,5 @@
 
 
-public class Ident(
+public class Ident {
 
-)
+}
