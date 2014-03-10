@@ -1,11 +1,12 @@
 
 public class IdVar extends Ident{
+
 	private String type;
-	private int val;
+	private int offset;
 	
-	public IdVar(String t, int v){
+	public IdVar(String t, int o){
 		type = t;
-		val = v;
+		offset = o;
 	}
 	
 	public String getType() {
@@ -14,11 +15,11 @@ public class IdVar extends Ident{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public int getVal() {
-		return val;
+	public int getOffset() {
+		return offset;
 	}
-	public void setVal(int val) {
-		this.val = val;
+	public void setOffset(int val) {
+		this.offset = offset;
 	}
 	
 }

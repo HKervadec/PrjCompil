@@ -1,19 +1,19 @@
 public class IdConst extends Ident{
 	
 	private String type;
-	private int offset;
+	private int val;
 	
 	
-	public IdConst(String t,int o){
+	public IdConst(String t,int v){
 		type = t;
-		offset = o;
+		val = v;
 	}
 	
-	public int getOffset() {
-		return offset;
+	public int getVal() {
+		return val;
 	}
-	public void setOffset(int offset) {
-		this.offset = offset;
+	public void setVal(int v) {
+		this.val = v;
 	}
 	public String getType() {
 		return type;
