@@ -9,17 +9,15 @@
  */
 
 
-options{
-	JDK_VERSION="1.5";	
-}
+// options{
+	// JDK_VERSION="1.5";	
+// }
 
 PARSER_BEGIN(Yaka)
 
 
 
 public class Yaka {
-
-
   public static void main(String args[]) { 
     Yaka analyseur;
     java.io.InputStream input;
