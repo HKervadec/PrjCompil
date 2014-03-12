@@ -4,10 +4,12 @@ public enum Operande{
 	moins("-"),
 	fois("*"),
 	div("/"),
+	
 	inf("<"),
 	sup(">"),
 	supeg(">="),
 	infeg("<="),
+	
 	egal("="),
 	dif("<>"),
 	et("et"),
