@@ -12,6 +12,8 @@ public class IdConst extends Ident{
 	public int getOffset() {
 		return offset;
 	}
+	
+	
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}

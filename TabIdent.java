@@ -23,7 +23,7 @@ public class TabIdent{
 	
 	
 	public void affichage(){
-		Set listecle = table.keySet();
+		Set<String> listecle = table.keySet();
 		Iterator<String> i  = listecle.iterator();
 		String clef;
 		while(i.hasNext() ){

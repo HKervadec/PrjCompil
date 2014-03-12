@@ -1,6 +1,6 @@
 
 public enum Operande{
-	PLUS("+"),
+	plus("+"),
 	moins("-"),
 	fois("*"),
 	div("/"),
