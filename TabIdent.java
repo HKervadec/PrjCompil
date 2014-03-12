@@ -1,18 +1,19 @@
 import java.util.*;
 
-public class TabIdent {
+public class TabIdent{
+	
 	private HashMap<String,Ident> table;
 	
-	public TabIdent(int taille) { 
+	
+	public TabIdent(int taille){
 		table = new HashMap<String,Ident>(taille);
 	}
 	
 	public Ident chercheIdent(String clef){
 		return table.get(clef);
-		
 	}
 	
-	public boolean existeIdent(String clef){ 
+	public boolean existeIdent(String clef){
 		return table.containsKey(clef);
 	}
 	
@@ -20,9 +21,17 @@ public class TabIdent {
 		table.put(clef,id);
 	}
 	
-	public void main(String[] args){
-		System.out.println("Hello world");
+	
+	public void affichage(){
+		Set listecle = table.keySet();
+		Iterator<String> i  = listecle.iterator();
+		String clef;
+		while(i.hasNext() ){
+			clef = i.next();
+			System.out.println( clef + " | " + chercheIdent(clef).toString() );
+		}
 	}
+	
 	
 
 }
