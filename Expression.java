@@ -102,7 +102,7 @@ public class Expression{
 	
 	public void resultat(){
 		if ( pileType.peek() == Type.erreur ){
-			System.out.println("L'expression est a chier");
+			System.out.println("ANALYSE SEMANTIQUE ECHOUEE");
 		}
 		else {
 			System.out.println("expression correcte, resultat de type " + pileType.peek());
