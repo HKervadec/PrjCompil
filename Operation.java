@@ -1,5 +1,5 @@
 
-public enum Operande{
+public enum Operation{
 	plus("+"),
 	moins("-"),
 	fois("*"),
@@ -17,7 +17,7 @@ public enum Operande{
 	
 	String symbole;
 	
-	private Operande(String s){
+	private Operation(String s){
 		this.symbole = s;
 	}
 }

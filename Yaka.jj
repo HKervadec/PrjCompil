@@ -19,8 +19,9 @@ PARSER_BEGIN(Yaka)
 
 public class Yaka {
 
-	public static TabIdent tabIdent = new TabIdent(50);
+public static TabIdent tabIdent = new TabIdent(50);
  public static String tempIdent = null;
+ public static Expression expression;
 
   public static void main(String args[]) { 
     Yaka analyseur;
@@ -194,7 +195,7 @@ void type() :{}
  * Syntaxe des instructions.
  */
 void suiteExpr() : {}
-{ (expression() (";" (expression())? )*)? }
+{ ( { expression = new Expression();} expression() (";" ({ expression = new Expression();} expression())? )*)? }
 
 
 
@@ -203,6 +204,7 @@ void suiteExpr() : {}
  */
 void expression() : {}
 {
+  
   simpleExpr() 
   (opRel() 
   simpleExpr() 
@@ -238,35 +240,34 @@ void primaire (): {}
 }
 
 void valeur () : {}
-{ <entier> 		
- | <ident> 		
- | <VRAI> 		
- | <FAUX> 		
- 
+{ <entier>   { expression.ajtType( Type.entier );}
+ | <ident>   { expression.ajtType( YakaTokenManager.identLu.getType() );}
+ | <VRAI>    { expression.ajtType( Type.booleen);}
+ | <FAUX> 	 { expression.ajtType( Type.booleen);}
 }
 
 void opRel() : {}
 {
-   "=" 		
- | "<>" 	
- | "<" 		
- | "<=" 	
- | ">" 		
- | ">=" 	
+   "=" 		{ expression.ajtOp( Operation.egal );}
+ | "<>" 	{ expression.ajtOp( Operation.dif );}
+ | "<" 		{ expression.ajtOp( Operation.inf );}
+ | "<=" 	{ expression.ajtOp( Operation.infeg );}
+ | ">" 		{ expression.ajtOp( Operation.sup );}
+ | ">=" 	{ expression.ajtOp( Operation.supeg );}
 } 
 
 void opAdd() : {}
 {
-    "+"		
-  |  "-"  
-  | <OU> 	
+    "+"		{  expression.ajtOp( Operation.plus );}
+  |  "-"    {  expression.ajtOp( Operation.moins );}
+  | <OU> 	{  expression.ajtOp( Operation.ou );}
 }
 
 void opMul() : {}
 {
-  "*"		
-  | "/"		
-  | <ET>	
+  "*"		{  expression.ajtOp( Operation.fois );}
+  | "/"		{  expression.ajtOp( Operation.div );}
+  | <ET>	{  expression.ajtOp( Operation.et );}
 } 
 
 void opNeg() : {}

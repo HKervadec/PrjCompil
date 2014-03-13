@@ -1,11 +1,11 @@
 public class IdConst extends Ident{
 	
-	private String type;
+
 	private int offset;
 	
 	
-	public IdConst(String t,int o){
-		type = t;
+	public IdConst(Type t,int o){
+		super(t);
 		offset = o;
 	}
 	
@@ -13,15 +13,8 @@ public class IdConst extends Ident{
 		return offset;
 	}
 	
-	
 	public void setOffset(int offset) {
 		this.offset = offset;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	
 	
