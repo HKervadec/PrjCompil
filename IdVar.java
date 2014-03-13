@@ -16,4 +16,8 @@ public class IdVar extends Ident{
 		this.val = val;
 	}
 	
+	public String toString(){
+		return this.type + " | " + this.val + " | ";
+	}
+	
 }

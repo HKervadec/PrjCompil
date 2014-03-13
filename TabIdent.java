@@ -22,13 +22,21 @@ public class TabIdent{
 	}
 	
 	public Type getTypeIdent(String nomVar){
-		return table.get(nomVar).getType();
+		Type t;
+		if( this.existeIdent(nomVar)){
+			t = table.get(nomVar).getType();
+		}
+		else {
+			t = Type.erreur;
+		}
+		return t;
 	}
 	
 	public void affichage(){
 		Set<String> listecle = table.keySet();
 		Iterator<String> i  = listecle.iterator();
 		String clef;
+		System.out.println("AFFICHAGE DE " + listecle.size() + " ELEMENTS");
 		while(i.hasNext() ){
 			clef = i.next();
 			System.out.println( clef + " | " + chercheIdent(clef).toString() );

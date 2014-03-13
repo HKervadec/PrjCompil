@@ -65,10 +65,11 @@ public class Expression{
 	// Rends pour une opération donné et le type des opérandes le type retourné.
 	public Type typeResultatBinaire(Operation op,Type typeOperande){
 		Type typeRes;
-		if(typeOperande == Type.entier ){
+		if(typeOperande.equals(Type.entier) ){
 			typeRes = tableLicite.get(getClassOp(op))[0];
-		}
-		if(typeOperande == Type.booleen) {
+			
+		} 
+		else if(typeOperande == Type.booleen) {
 			typeRes = tableLicite.get(getClassOp(op))[1];
 		}
 		else {
@@ -87,6 +88,7 @@ public class Expression{
 	
 	// evaluation de type à la fin de chaques opérations binaires.
 	public void evaluation(){
+		System.out.println("EVAAA");
 		Type t1 = pileType.pop();
 		Type t2 = pileType.pop();
 		Operation op = pileOp.pop();

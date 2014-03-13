@@ -170,7 +170,7 @@ void defConst() : {}
 }
 
 void valConst() : {}{
-  <entier> 
+  <entier> 	{ tabIdent.rangeIdent( tempIdent, new IdConst(Type.entier,YakaTokenManager.entierLu) ) ; }	
  | <ident>  { tabIdent.rangeIdent( tempIdent, tabIdent.chercheIdent(YakaTokenManager.identLu) ) ; }	
  | <VRAI>   { tabIdent.rangeIdent( tempIdent, new IdConst(Type.booleen,0) ); }
  | <FAUX>   { tabIdent.rangeIdent( tempIdent, new IdConst(Type.booleen, 1 ) ); }	 
@@ -181,9 +181,9 @@ void declVar() : {}
 {
    { declaration = new Declaration();}
   <VAR> type()	
-  <ident>  { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration  ); }
+  <ident>  { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration. retIdVar() ); }
   ("," 
-      <ident>   { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration  ); }
+      <ident>   { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration.retIdVar()  ); }
   )* ";"
 	
 }
@@ -197,7 +197,7 @@ void type() :{}
  * Syntaxe des instructions.
  */
 void suiteExpr() : {}
-{ ( { expression = new Expression();} expression() (";" ({ expression = new Expression();} expression())? )*)? }
+{ ( { expression = new Expression();} expression() (";" (expression())? )*)? }
 
 
 
@@ -245,7 +245,7 @@ void primaire (): {}
 
 void valeur () : {}
 { <entier>   { expression.ajtType( Type.entier );}
- | <ident>   { expression.ajtType( YakaTokenManager.identLu.getType() );}
+ | <ident>   { expression.ajtType( tabIdent.getTypeIdent( YakaTokenManager.identLu));}
  | <VRAI>    { expression.ajtType( Type.booleen);}
  | <FAUX> 	 { expression.ajtType( Type.booleen);}
 }

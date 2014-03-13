@@ -17,6 +17,9 @@ public class IdConst extends Ident{
 		this.offset = offset;
 	}
 	
+	public String toString(){
+		return this.type + " | " + this.offset + " | ";
+	}
 	
 	
 }
