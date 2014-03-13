@@ -34,20 +34,40 @@ public class Expression{
 		tableType.put(Operande.ou , ClassOp.log);
 	}
 	
+	// déclaration du tableau associatif des opérations licites et illicite.
 	private static HashMap< ClassOp, Type[] > tableLicite = new HashMap<ClassOp,Type[]>();
 	static {
 		Type[] typeAlg =  {Type.entier,Type.erreur};
 		tableLicite.put(ClassOp.alg,  typeAlg );
-		
+		Type[] typeDif = {Type.booleen,Type.erreur};
+		tableLicite.put(ClassOp.dif, typeDif);
+		Type[] typeEg = {Type.booleen, Type.booleen };
+		tableLicite.put( ClassOp.eg, typeEg);
+		Type[] typeLog = {Type.erreur,Type.booleen };
+		tableLicite.put( ClassOp.log, typeLog);
 	}
 	
-	
-
 	
 	public Expression(){
 		tabType = new Type[TAILLEMAX];
 		tabOp = new Operande[TAILLEMAX];
 	}
+	
+	public ClassOp getClassOp(Operande op){
+		return tableType.get(op);
+	}
+	
+	
+	// pb : ajotuer gestion entier ou booleen
+	public Type typeResultatBinaire(Operande op){
+		return tableLicite.get(getClassOp(op));
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
