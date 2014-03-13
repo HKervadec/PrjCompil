@@ -18,7 +18,13 @@ PARSER_BEGIN(Yaka)
 
 
 public class Yaka {
-  
+    public static Constante constante;
+    public static Declaration declaration;
+    public static Expression expression;
+    public static TabIdent tabIdent;
+    public static YVM yvm;
+    
+    
     public static void main(String args[]) { 
         Yaka analyseur;
         java.io.InputStream input;
@@ -123,7 +129,7 @@ TOKEN  :
         }
     | < #lettre: ["A"-"Z","a"-"z"] >
     | < ident : <lettre> (<lettre> | <chiffre>)* >
-        {identLu =image.toString();	
+        {identLu = image.toString();	
         }
     | < chaine : "\"" (~["\""])* "\"" | "'" (~["'"])* "'" >
         { chaineLue = image.toString();
