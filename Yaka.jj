@@ -15,14 +15,14 @@
 
 PARSER_BEGIN(Yaka)
 
-
+// import java.io.FileOutputStream;
 
 public class Yaka {
-    public static Constante constante;
-    public static Declaration declaration;
-    public static Expression expression;
-    public static TabIdent tabIdent;
-    public static YVM yvm;
+    public static Constante constante = new Constante();
+    public static Declaration declaration = new Declaration();
+    public static Expression expression = new Expression();
+    public static TabIdent tabIdent = new TabIdent();
+    public static YVM yvm = new YVM();
     
     
     public static void main(String args[]) { 
@@ -33,7 +33,8 @@ public class Yaka {
         if (args.length==1) {
             System.out.print(args[args.length-1] + ": ");
             try {
-                input = new java.io.FileInputStream(args[args.length-1]+".yaka");
+                // input = new java.io.FileInputStream(args[args.length-1]+".yaka");
+                input = new java.io.FileInputStream(args[args.length-1]);
             } catch (java.io.FileNotFoundException e) {
                 System.out.println("Fichier introuvable.");
                 return;
@@ -54,6 +55,13 @@ public class Yaka {
             msg = msg.substring(0,msg.indexOf("\n"));
             System.out.println("Erreur de syntaxe : "+msg);
         }
+        
+        // System.out.println("Code YVM produit:");
+        // System.out.println(yvm);
+        yvm.getOutput().println(yvm);
+        yvm.getOutput().close();
+        
+        System.out.println(tabIdent);
     } 
 }
 
@@ -142,7 +150,9 @@ TOKEN  :
 /**************************************/
 void analyse() : {}
 {
-    <PROGRAMME> <ident>	
+    <PROGRAMME> 
+    <ident>	
+        {yvm.setOutput(YakaTokenManager.identLu + ".yvm");}
     bloc()
     <FPROGRAMME> 
 }
@@ -160,31 +170,40 @@ void declConst() : {}
 
 void defConst() : {}
 {
-    <ident>  	  	
+    <ident>  	  
+        {tabIdent.setTmpId(YakaTokenManager.identLu);}
     "=" valConst()
 }
 
 void valConst() : {}{
-    <entier> 		
-    | <ident>		
-    | <VRAI> 		
-    | <FAUX> 		
+    <entier>
+        {tabIdent.setTmpValue(false, Ident.ENTIER, YakaTokenManager.entierLu);}
+    | <ident>
+        {tabIdent.setTmpFrom(false, YakaTokenManager.identLu);}
+    | <VRAI> 
+        {tabIdent.setTmpValue(false, Ident.BOOLEAN, -1);}
+    | <FAUX>
+        {tabIdent.setTmpValue(false, Ident.BOOLEAN, 0);}
 }
 
 
 void declVar() : {}
 {
-    <VAR> type()	
-    <ident>		
+    <VAR> type()
+    <ident>
+        {tabIdent.addVar(YakaTokenManager.identLu);}
     ("," 
-    <ident>  
+    <ident>
+        {tabIdent.addVar(YakaTokenManager.identLu);}
     )* ";"
 }
 
 void type() :{}
 {
-    <ENTIER> 			
+    <ENTIER>
+        {tabIdent.lastType = Ident.ENTIER;}
     | <BOOLEEN>	
+        {tabIdent.lastType = Ident.BOOLEAN;}
 }
 /*
  * Syntaxe des instructions.
