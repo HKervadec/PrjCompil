@@ -88,7 +88,6 @@ public class Expression{
 	
 	// evaluation de type à la fin de chaques opérations binaires.
 	public void evaluation(){
-		System.out.println("EVAAA");
 		Type t1 = pileType.pop();
 		Type t2 = pileType.pop();
 		Operation op = pileOp.pop();
@@ -102,11 +101,11 @@ public class Expression{
 	
 	
 	public void resultat(){
-		if ( pileType.pop() == Type.erreur ){
+		if ( pileType.peek() == Type.erreur ){
 			System.out.println("L'expression est a chier");
 		}
 		else {
-			System.out.println("expression correcte");
+			System.out.println("expression correcte, resultat de type " + pileType.peek());
 			}
 		}
 
