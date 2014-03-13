@@ -85,12 +85,27 @@ public class Expression{
 		pileOp.push(op);
 	}
 	
+	// evaluation de type à la fin de chaques opérations binaires.
+	public void evaluation(){
+		Type t1 = pileType.pop();
+		Type t2 = pileType.pop();
+		Operation op = pileOp.pop();
+		if( t1 == t2){
+			pileType.push(typeResultatBinaire(op,t1));
+		}
+		else {
+			pileType.push(Type.erreur);
+		}
+	}
 	
 	
-	
-	
-	
-	
-	
-	
+	public void resultat(){
+		if ( pileType.pop() == Type.erreur ){
+			System.out.println("L'expression est a chier");
+		}
+		else {
+			System.out.println("expression correcte");
+			}
+		}
+
 }		

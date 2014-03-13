@@ -21,6 +21,9 @@ public class TabIdent{
 		table.put(clef,id);
 	}
 	
+	public Type getTypeIdent(String nomVar){
+		return table.get(nomVar).getType();
+	}
 	
 	public void affichage(){
 		Set<String> listecle = table.keySet();

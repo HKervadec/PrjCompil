@@ -22,6 +22,7 @@ public class Yaka {
 public static TabIdent tabIdent = new TabIdent(50);
  public static String tempIdent = null;
  public static Expression expression;
+ public static Declaration declaration;
 
   public static void main(String args[]) { 
     Yaka analyseur;
@@ -169,27 +170,28 @@ void defConst() : {}
 }
 
 void valConst() : {}{
-  <entier>  { tabIdent.rangeIdent( tempIdent, new IdConst("entier",YakaTokenManager.entierLu)  ); }
+  <entier> 
  | <ident>  { tabIdent.rangeIdent( tempIdent, tabIdent.chercheIdent(YakaTokenManager.identLu) ) ; }	
- | <VRAI>   { tabIdent.rangeIdent( tempIdent, new IdConst("booleen",0) ); }
- | <FAUX>  { tabIdent.rangeIdent( tempIdent, new IdConst("booleen", 1 ) ); }	 
+ | <VRAI>   { tabIdent.rangeIdent( tempIdent, new IdConst(Type.booleen,0) ); }
+ | <FAUX>   { tabIdent.rangeIdent( tempIdent, new IdConst(Type.booleen, 1 ) ); }	 
 }
 
 
 void declVar() : {}
 {
+   { declaration = new Declaration();}
   <VAR> type()	
-  <ident>		
+  <ident>  { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration  ); }
   ("," 
-      <ident>  
+      <ident>   { tabIdent.rangeIdent( YakaTokenManager.identLu , declaration  ); }
   )* ";"
 	
 }
 
 void type() :{}
 {
-   <ENTIER> 			
- | <BOOLEEN>	
+   <ENTIER>  { declaration.ajtType(Type.entier); }
+ | <BOOLEEN> { declaration.ajtType(Type.booleen); }
 }
 /*
  * Syntaxe des instructions.
@@ -208,7 +210,8 @@ void expression() : {}
   simpleExpr() 
   (opRel() 
   simpleExpr() 
-  )?
+  { expression.evaluation(); } )?
+  { expression.resultat();}
 }
 
 
@@ -218,14 +221,15 @@ void simpleExpr() : {}
    terme() 
    (opAdd() 
    terme()	
-   )*
+   { expression.evaluation(); } )*
+   
 } 
 void terme() : {}
 {
   facteur() 
   (opMul() 
   facteur()	
-  )*
+  { expression.evaluation(); } )*
 }
 void facteur() : {}
 {   primaire() 
