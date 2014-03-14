@@ -31,7 +31,7 @@ public class Yaka {
 
 
         if (args.length==1) {
-            System.out.print(args[args.length-1] + ": ");
+            System.out.println(args[args.length-1] + ": ");
             try {
                 // input = new java.io.FileInputStream(args[args.length-1]+".yaka");
                 input = new java.io.FileInputStream(args[args.length-1]);
@@ -61,7 +61,7 @@ public class Yaka {
         yvm.getOutput().println(yvm);
         yvm.getOutput().close();
         
-        System.out.println(tabIdent);
+        // System.out.println(tabIdent);
     } 
 }
 
@@ -150,16 +150,19 @@ TOKEN  :
 /**************************************/
 void analyse() : {}
 {
-    <PROGRAMME> 
+    <PROGRAMME>
+        {yvm.add(new Instruction("entete"));}
     <ident>	
         {yvm.setOutput(YakaTokenManager.identLu + ".yvm");}
     bloc()
     <FPROGRAMME> 
+        {yvm.add(new Instruction("queue"));}
 }
 
 void bloc() : {}{
     (declConst())*
-    (declVar())*		
+    (declVar())*
+        {tabIdent.end();}
     suiteExpr() 
 }
 
@@ -177,13 +180,13 @@ void defConst() : {}
 
 void valConst() : {}{
     <entier>
-        {tabIdent.setTmpValue(false, Ident.ENTIER, YakaTokenManager.entierLu);}
+        {tabIdent.setTmpValue(false, Type.INTEGER, YakaTokenManager.entierLu);}
     | <ident>
         {tabIdent.setTmpFrom(false, YakaTokenManager.identLu);}
     | <VRAI> 
-        {tabIdent.setTmpValue(false, Ident.BOOLEAN, -1);}
+        {tabIdent.setTmpValue(false, Type.BOOLEAN, -1);}
     | <FAUX>
-        {tabIdent.setTmpValue(false, Ident.BOOLEAN, 0);}
+        {tabIdent.setTmpValue(false, Type.BOOLEAN, 0);}
 }
 
 
@@ -201,16 +204,20 @@ void declVar() : {}
 void type() :{}
 {
     <ENTIER>
-        {tabIdent.lastType = Ident.ENTIER;}
+        {tabIdent.lastType = Type.INTEGER;}
     | <BOOLEEN>	
-        {tabIdent.lastType = Ident.BOOLEAN;}
+        {tabIdent.lastType = Type.BOOLEAN;}
 }
 /*
  * Syntaxe des instructions.
  */
 void suiteExpr() : {}
 { 
-    (expression() (";" (expression())? )*)? 
+    (expression() 
+        {expression.checkAndClearTypes();}
+    (";" (expression()
+            {expression.checkAndClearTypes();}
+        )? )*)? 
 }
 
 
@@ -223,7 +230,8 @@ void expression() : {}
     simpleExpr() 
     (opRel() 
     simpleExpr() 
-    )?
+        {expression.popOp();}
+    )?  
 }
 
 void simpleExpr() : {}
@@ -231,6 +239,7 @@ void simpleExpr() : {}
     terme() 
     (opAdd() 
     terme()	
+        {expression.popOp();}
     )*
 } 
 
@@ -238,13 +247,14 @@ void terme() : {}
 {
     facteur() 
     (opMul() 
-    facteur()	
+    facteur()
+        {expression.popOp();}
     )*
 }
 void facteur() : {}
 {  
     primaire() 
-    |  opNeg() primaire() 
+    |  opNeg() primaire()  {expression.popOp();}
 }
 
 void primaire (): {}
@@ -255,39 +265,60 @@ void primaire (): {}
 
 void valeur () : {}
 { 
-    <entier> 		
-    | <ident> 		
-    | <VRAI> 		
-    | <FAUX> 		
+    <entier>
+        {expression.loadConst(YakaTokenManager.entierLu);
+        expression.pushType(Type.INTEGER);}
+    | <ident> 
+        {expression.load(YakaTokenManager.identLu);}
+    | <VRAI> 
+        {expression.loadConst(-1);
+        expression.pushType(Type.BOOLEAN);}
+    | <FAUX>
+        {expression.loadConst(0);
+        expression.pushType(Type.BOOLEAN);}
 }
 
 void opRel() : {}
 {
-    "=" 		
-    | "<>" 	
-    | "<" 		
+    "="
+        {expression.pushOp(Op.EQ);}
+    | "<>" 	   
+        {expression.pushOp(Op.NEQ);}
+    | "<" 	
+        {expression.pushOp(Op.LESS);}
     | "<=" 	
-    | ">" 		
-    | ">=" 	
+        {expression.pushOp(Op.LEQ);}
+    | ">" 	
+        {expression.pushOp(Op.GRT);}
+    | ">=" 
+        {expression.pushOp(Op.GRQ);}
 } 
 
 void opAdd() : {}
 {
-    "+"		
+    "+"	
+        {expression.pushOp(Op.ADD);}
     |  "-"  
+        {expression.pushOp(Op.SUB);}
     | <OU> 	
+        {expression.pushOp(Op.OR);}
 }
 
 void opMul() : {}
 {
-    "*"		
+    "*"
+        {expression.pushOp(Op.MUL);}
     | "/"		
+        {expression.pushOp(Op.DIV);}
     | <ET>	
+        {expression.pushOp(Op.AND);}
 } 
 
 void opNeg() : {}
 { 
-    "-" 		
+    "-" 
+        {expression.pushOp(Op.NEG);}
     | <NON>	
+        {expression.pushOp(Op.NOT);}
 }
 

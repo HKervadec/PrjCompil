@@ -15,6 +15,11 @@ public class YVM{
         this.setOutput("default.yvm");
     }
     
+    public void add(Instruction i){
+        this.code_yvm.add(i);
+        // System.out.println(i);
+    }
+    
     public String toString(){
         String result = "";
         
