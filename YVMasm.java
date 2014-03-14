@@ -5,6 +5,7 @@ public class YVMasm{
     private ArrayList<String> code_asm;
     private PrintWriter output;
     private int idMess;
+    private int idTrue;
     
     public PrintWriter getOutput(){
         return this.output;
@@ -99,12 +100,27 @@ public class YVMasm{
             case "idiv":
                 this.idiv();
                 break;
+			case "iinf":
+				this.cmp("jge");
+				break;
+			case "isup":
+				this.cmp("jle");
+				break;
+			case "iinfegal":
+				this.cmp("jg");
+				break;
+			case "isupegal":
+				this.cmp("jl");
+				break;
+			case "iegal":
+				this.cmp("jne");
+				break;
+			case "idiff":
+				this.cmp("je");
+				break;
             default:
                 break;
-        }
-        
-        
-        
+        }  
         this.code_asm.add("");
     }
     
@@ -131,7 +147,7 @@ public class YVMasm{
     }
     
     private String addDollar(String s){
-        s = s.substring(0, s.length() - 2);
+        s = s.substring(0, s.length() - 1);
         s += "$\"";
         
         return s;
@@ -140,7 +156,7 @@ public class YVMasm{
     private void lireEnt(int e){
        this.code_asm.add("\tlea dx,[bp" + e + "]");
        this.code_asm.add("\tpush dx");
-       this.code_asm.add("call lireent");
+       this.code_asm.add("\tcall lirent");
     }
     
     private void aLaLigne(){
@@ -185,7 +201,22 @@ public class YVMasm{
         this.code_asm.add("\tpop bx");
         this.code_asm.add("\tpop ax");
         this.code_asm.add("\tcwd");
-        this.code_asm.add("\timul bx");
+        this.code_asm.add("\tidiv bx");
         this.code_asm.add("\tpush ax");
     }
+	
+	private void cmp(String op){
+		this.code_asm.add("\tpop bx");
+		this.code_asm.add("\tpop ax");
+		this.code_asm.add("\tcmp ax,bx");
+		this.code_asm.add("\t"+ op +" FALSE"+this.idTrue);
+		this.code_asm.add("\tTRUE"+this.idTrue+":");
+		this.code_asm.add("\t\tpush -1");
+		this.code_asm.add("\t\tjmp ENDTRUE"+this.idTrue);
+		this.code_asm.add("\tFALSE"+this.idTrue+":");
+		this.code_asm.add("\t\tpush 0");
+		this.code_asm.add("\tENDTRUE"+this.idTrue+":");
+		
+		this.idTrue++;
+	}
 }

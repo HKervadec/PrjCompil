@@ -97,6 +97,28 @@ public class Expression{
     public Type sanity(Op op){
         // System.out.println("sanity: " + this.stack_types);
         Type t1 = this.stack_types.pop();
+		switch(op){
+			case NOT:
+				switch(t1){
+                    case INTEGER:
+                        return Type.ERROR;
+                    case BOOLEAN:
+                        return Type.BOOLEAN;
+                    default:
+                        return Type.ERROR;
+                }
+			case NEG:
+				switch(t1){
+                    case INTEGER:
+                        return Type.INTEGER;
+                    case BOOLEAN:
+                        return Type.ERROR;
+                    default:
+                        return Type.ERROR;
+                }
+		}
+		
+		
         Type t2 = this.stack_types.pop();
         
         if(t1 != t2){

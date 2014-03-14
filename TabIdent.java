@@ -67,6 +67,6 @@ public class TabIdent{
     
     
     public void end(){
-        Yaka.yvm.add(new Instruction("ouvrePrinc", (this.offset+2)));
+        Yaka.yvm.add(new Instruction("ouvrePrinc", -(this.offset+2)));
     }
 }
