@@ -163,7 +163,8 @@ void bloc() : {}{
     (declConst())*
     (declVar())*
         {tabIdent.end();}
-    suiteExpr() 
+    // suiteExpr() 
+    suiteInstr() 
 }
 
 void declConst() : {}
@@ -211,15 +212,60 @@ void type() :{}
 /*
  * Syntaxe des instructions.
  */
-void suiteExpr() : {}
+// void suiteExpr() : {}
+// { 
+    // (expression() 
+        // {expression.checkAndClearTypes();}
+    // (";" (expression()
+            // {expression.checkAndClearTypes();}
+        // )? )*)? 
+// }
+void suiteInstr() : {}
 { 
-    (expression() 
+    (instruction() 
         {expression.checkAndClearTypes();}
-    (";" (expression()
+    (";" (instruction()
             {expression.checkAndClearTypes();}
         )? )*)? 
 }
 
+void instruction() : {}
+{
+    affectation()
+    | lecture()
+    | ecriture()
+}
+
+void affectation(): {}
+{
+    <ident>
+        {expression.pushId(YakaTokenManager.identLu);}
+    "=" 
+    expression()
+        {expression.popId();}
+}
+
+void lecture(): {}
+{
+    <LIRE> 
+    "(" 
+    <ident> 
+        {yvm.read(YakaTokenManager.identLu);}
+    ")"
+}
+
+void ecriture(): {}
+{
+    (<ECRIRE>
+        "("
+        (expression()
+            {yvm.add(new Instruction("ecrireEnt"));}
+        | <chaine>
+            {yvm.add(new Instruction("ecrireChaine", YakaTokenManager.chaineLue));})
+        ")")
+    | <ALALIGNE>
+        {yvm.add(new Instruction("aLaLigne"));}
+}
 
 
 /*

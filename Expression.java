@@ -3,14 +3,14 @@ import java.util.Stack;
 
 public class Expression{
     private Stack<Op> stack_ops;
-    private Stack stack_numbers;
+    private Stack<Ident> stack_ids;
     private Stack<Type> stack_types;
     
 
     
     public Expression(){
         this.stack_ops = new Stack<Op>();
-        this.stack_numbers = new Stack(); 
+        this.stack_ids = new Stack<Ident>(); 
         this.stack_types = new Stack<Type>(); 
     }
     
@@ -20,6 +20,17 @@ public class Expression{
     
     public void pushType(Type t){
         this.stack_types.push(t);
+    }
+    
+    public void pushId(String name){
+        Ident id = Yaka.tabIdent.searchIdent(name);
+        
+        if(id == null){
+            System.err.println("Error: Identifier doesn't exist");
+            return;
+        }
+        
+        this.stack_ids.push(id);
     }
     
     public void popOp(){
@@ -143,12 +154,27 @@ public class Expression{
         }
     }
     
+    public void popId(){
+        Ident id = this.stack_ids.pop();
+        
+        if(!id.var){
+            System.err.println("Error: Trying to change the value of a constant");
+            return;
+        }
+        
+        if(id.getType() != this.stack_types.pop()){
+            System.err.println("Warning: types mismatch");
+        }
+        
+        Yaka.yvm.add(new Instruction("istore", id.getValue()));
+    }
+    
     
     public void load(String name){
         Ident id = Yaka.tabIdent.searchIdent(name);
         
         if(id == null){
-            System.err.println("Error: Identifier doesn't exit");
+            System.err.println("Error: Identifier doesn't exist");
         }else{
             if(id.var){
                 this.loadVar(id.getValue());
