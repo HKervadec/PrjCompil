@@ -118,6 +118,9 @@ public class YVMasm{
 			case "idiff":
 				this.cmp("je");
 				break;
+			case "ineg":
+				this.ineg();
+				break;
             default:
                 break;
         }  
@@ -218,5 +221,13 @@ public class YVMasm{
 		this.code_asm.add("\tENDTRUE"+this.idTrue+":");
 		
 		this.idTrue++;
+	}
+	
+	private void ineg(){
+		this.code_asm.add("\tpop ax");
+		this.code_asm.add("\tmov bx,-1");
+		this.code_asm.add("\timul bx");
+		this.code_asm.add("\tpush ax");
+		
 	}
 }
