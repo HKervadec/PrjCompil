@@ -1,7 +1,6 @@
 PROGRAMME entreeSortie
 VAR ENTIER x,y,z;
-VAR BOOLEEN c;
-    ECRIRE(" x = ");
+    ECRIRE("x = ");
     LIRE(x);
     ALALIGNE;
     ECRIRE("y = ");

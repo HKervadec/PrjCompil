@@ -34,18 +34,17 @@ public class Yaka implements YakaConstants {
             analyseur = new Yaka(input);
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
+
+            yvm.getOutput().println(yvm);
+            yvm.getOutput().close();
+
+            yvm.asm.getOutput().println(yvm.asm);
+            yvm.asm.getOutput().close();
         } catch (ParseException e) {
             String msg = e.getMessage();
             msg = msg.substring(0,msg.indexOf("\u005cn"));
             System.out.println("Erreur de syntaxe : "+msg);
         }
-
-        // System.out.println("Code YVM produit:");
-        // System.out.println(yvm);
-        yvm.getOutput().println(yvm);
-        yvm.getOutput().close();
-
-        // System.out.println(tabIdent);
     }
 
 /**************************************/
@@ -55,7 +54,7 @@ public class Yaka implements YakaConstants {
     jj_consume_token(PROGRAMME);
          yvm.add(new Instruction("entete"));
     jj_consume_token(ident);
-         yvm.setOutput(YakaTokenManager.identLu + ".yvm");
+         yvm.setOutput(YakaTokenManager.identLu);
     bloc();
     jj_consume_token(FPROGRAMME);
          yvm.add(new Instruction("queue"));

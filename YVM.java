@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 public class YVM{
     private ArrayList<Instruction> code_yvm;
     private PrintWriter output;
+    public YVMasm asm;
     
     public PrintWriter getOutput(){
         return this.output;
@@ -12,11 +13,13 @@ public class YVM{
     
     public YVM(){
         this.code_yvm = new ArrayList<Instruction>();
-        this.setOutput("default.yvm");
+        this.asm = new YVMasm();
+        this.setOutput("default");
     }
     
     public void add(Instruction i){
         this.code_yvm.add(i);
+        this.asm.translateToAsm(i);
         // System.out.println(i);
     }
     
@@ -32,8 +35,10 @@ public class YVM{
     
     public void setOutput(String name){
         try{
-            this.output = new PrintWriter(name, "UTF-8");
+            this.output = new PrintWriter(name + ".yvm", "UTF-8");
         }catch(Exception e){}
+        
+        this.asm.setOutput(name);
     }
     
     
@@ -52,4 +57,10 @@ public class YVM{
         
         this.add(new Instruction("lireEnt", id.getValue()));
     }
+    
+    // public void translate(){
+        // for(Instruction i : this.code_yvm){
+            // this.asm.translateToAsm(i);
+        // }
+    // }
 }
