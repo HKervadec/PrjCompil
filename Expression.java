@@ -110,30 +110,37 @@ public class Expression{
     /*
 	* test the semantic of the expression
 	*/
-    // FIXME
+
     public Type sanity(Op op){
-        // System.out.println("sanity: " + this.stack_types);
+        
         Type t1 = this.stack_types.pop();
 		
-		switch(op){
+		switch(op){ 
 			case NOT:
-				if(t1 == BOOLEAN){
+				if(t1 == Type.BOOLEAN){
 					return Type.BOOLEAN;
 				}else{
 					return Type.ERROR;
 				}
 				
+				
 			case NEG:
-				switch(t1){
+				if(t1 == Type.INTEGER){
+					return Type.INTEGER;
+				}else{
+					return Type.ERROR;
+				}
+				/*switch(t1){
                     case INTEGER:
                         return Type.INTEGER;
                     case BOOLEAN:
                         return Type.ERROR;
                     default:
                         return Type.ERROR;
-                }
+                }*/
 		}
 		
+		/* In the case of NOT or NEG you don't have to check the second type */
 		
         Type t2 = this.stack_types.pop();
         
@@ -147,26 +154,20 @@ public class Expression{
             case SUB:
             case MUL:
             case DIV:
-                switch(t1){
-                    case INTEGER:
-                        return Type.INTEGER;
-                    case BOOLEAN:
-                        return Type.ERROR;
-                    default:
-                        return Type.ERROR;
-                }
+                if(t1 == Type.INTEGER){
+					return Type.INTEGER;
+				}else{
+					return Type.ERROR;
+				}
             case LEQ:
             case GRQ:
             case LESS:
             case GRT:
-                switch(t1){
-                    case INTEGER:
-                        return Type.BOOLEAN;
-                    case BOOLEAN:
-                        return Type.ERROR;
-                    default:
-                        return Type.ERROR;
-                }
+                if(t1 == Type.INTEGER){
+					return Type.BOOLEAN;
+				}else{
+					return Type.ERROR;
+				}
             case EQ:
             case NEQ:
                 switch(t1){
@@ -179,19 +180,19 @@ public class Expression{
                 }
             case AND:
             case OR:
-                switch(t1){
-                    case INTEGER:
-                        return Type.ERROR;
-                    case BOOLEAN:
-                        return Type.BOOLEAN;
-                    default:
-                        return Type.ERROR;
-                }
+                if(t1 == Type.BOOLEAN){
+					return Type.BOOLEAN;
+				}else{
+					return Type.ERROR;
+				}
             default:
                 return Type.ERROR;
         }
     }
     
+	/*
+	* Check if the id is a variable and has the same type as in the stack
+	*/
     public void popId(){
         Ident id = this.stack_ids.pop();
         
@@ -207,7 +208,9 @@ public class Expression{
         Yaka.yvm.add(new Instruction("istore", id.getValue()));
     }
     
-    
+    /*
+	*test to make the difference between the instruction iload and iconst
+	*/
     public void load(String name){
         Ident id = Yaka.tabIdent.searchIdent(name);
         
@@ -224,20 +227,31 @@ public class Expression{
         }
     }
    
-    
+    /*
+	* add iload instruction in the yvm
+	*/
     public void loadVar(int offset){
         Yaka.yvm.add(new Instruction("iload", offset));
     }
     
+	/*
+	*	add iconst instruction in the yvm
+	*/
     public void loadConst(int value){
         Yaka.yvm.add(new Instruction("iconst", value));
     }
-    
+	
+    /*
+	*	add ineg instruction in the yvm
+	*/
     public void neg(){
         Yaka.yvm.add(new Instruction("ineg"));
     }
     
-    
+    /*
+	* Check the different type in an expression. If a type mismatch --> error
+	* at the end, a new stack of type is build
+	*/
     public void checkAndClearTypes(){
         int pos = this.stack_types.search(Type.ERROR);
         

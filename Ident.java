@@ -1,8 +1,8 @@
 public class Ident{
-    public boolean var;
-    public String id;
-    private Type type;
-    private int value;
+    public boolean var; // the identificateur is a variable or not
+    public String id; // the name of the identificateur
+    private Type type; // the type
+    private int value; // the value
     
     
     public Ident(boolean var, String id, Type type, int value){
