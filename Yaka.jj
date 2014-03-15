@@ -9,46 +9,59 @@
  */
 
 
-options{
-	JDK_VERSION="1.5";	
-}
+// options{
+	// JDK_VERSION="1.5";	
+// }
 
 PARSER_BEGIN(Yaka)
 
-
+// import java.io.FileOutputStream;
 
 public class Yaka {
+    public static Constante constante = new Constante();
+    public static Declaration declaration = new Declaration();
+    public static Expression expression = new Expression();
+    public static TabIdent tabIdent = new TabIdent();
+    public static YVM yvm = new YVM();
+    
+    
+    public static void main(String args[]) { 
+        Yaka analyseur;
+        java.io.InputStream input;
 
 
-  public static void main(String args[]) { 
-    Yaka analyseur;
-    java.io.InputStream input;
-
-    if (args.length==1) {
-      System.out.print(args[args.length-1] + ": ");
-      try {
-        input = new java.io.FileInputStream(args[args.length-1]+".yaka");
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Fichier introuvable.");
-        return;
-      }
-    } else if (args.length==0) {
-      System.out.println("Lecture sur l'entree standard...");
-      input = System.in;
-    } else {
-      System.out.println("Usage: java Gram [fichier]");
-      return;
-    }
-    try {
-      analyseur = new Yaka(input);
-      analyseur.analyse();
-      System.out.println("analyse syntaxique reussie!");
-    } catch (ParseException e) {
-      String msg = e.getMessage();
-      msg = msg.substring(0,msg.indexOf("\n"));
-      System.out.println("Erreur de syntaxe : "+msg);
-    }
-  } 
+        if (args.length==1) {
+            System.out.println(args[args.length-1] + ": ");
+            try {
+                // input = new java.io.FileInputStream(args[args.length-1]+".yaka");
+                input = new java.io.FileInputStream(args[args.length-1]);
+            } catch (java.io.FileNotFoundException e) {
+                System.out.println("Fichier introuvable.");
+                return;
+            }
+        } else if (args.length==0) {
+            System.out.println("Lecture sur l'entree standard...");
+            input = System.in;
+        } else {
+            System.out.println("Usage: java Gram [fichier]");
+            return;
+        }
+        try {
+            analyseur = new Yaka(input);
+            analyseur.analyse();
+            System.out.println("analyse syntaxique reussie!");
+            
+            yvm.getOutput().println(yvm);
+            yvm.getOutput().close();
+            
+            yvm.asm.getOutput().println(yvm.asm);
+            yvm.asm.getOutput().close();
+        } catch (ParseException e) {
+            String msg = e.getMessage();
+            msg = msg.substring(0,msg.indexOf("\n"));
+            System.out.println("Erreur de syntaxe : "+msg);
+        }
+    } 
 }
 
 PARSER_END(Yaka)
@@ -63,19 +76,19 @@ TOKEN_MGR_DECLS :
 /*** Skip whitespace and comments ***/
 SKIP :
 {
-  " "
-| "\t"
-| "\n"
-| "\r"
-| "(*"   : IN_COMMENT
+      " "
+    | "\t"
+    | "\n"
+    | "\r"
+    | "(*"   : IN_COMMENT
 }
 <IN_COMMENT> MORE:
 {
-  < ~[] >
+    < ~[] >
 }
 <IN_COMMENT> SKIP:
 {
-   < "*)" >  {SwitchTo(DEFAULT);} 
+    < "*)" >  {SwitchTo(DEFAULT);} 
 }
 
 
@@ -83,34 +96,33 @@ SKIP :
 
 TOKEN :
 {
-  < BOOLEEN: "BOOLEEN" >
-| < VAR: "VAR" >
-| < FAIRE: "FAIRE" >
-| < SINON: "SINON" >
-| < POUR: "POUR" >
-| < SI: "SI" >
-| < FSI: "FSI">
-| < ENTIER: "ENTIER" >
-| < RETOURNE: "RETOURNE" >
-| < VRAI: "VRAI" >
-| < TANTQUE: "TANTQUE" >
-| <CONST : "CONST">
-| <FAUX : "FAUX">
-| <FAIT : "FAIT">
-| <OU : "OU">
-| <ET : "ET">
-| <NON : "NON">
-| <FONCTION : "FONCTION">
-| <FFONCTION  : "FFONCTION">
-| <PROGRAMME : "PROGRAMME" >
-| <FPROGRAMME: "FPROGRAMME" >
-| <PRINCIPAL : "PRINCIPAL">
-| <FPRINCIPAL : "FPRINCIPAL">
-| <ALORS : "ALORS">
-| <ECRIRE : "ECRIRE">
-| <LIRE : "LIRE">
-| <ALALIGNE : "ALALIGNE">
-
+    < BOOLEEN: "BOOLEEN" >
+    | < VAR: "VAR" >
+    | < FAIRE: "FAIRE" >
+    | < SINON: "SINON" >
+    | < POUR: "POUR" >
+    | < SI: "SI" >
+    | < FSI: "FSI">
+    | < ENTIER: "ENTIER" >
+    | < RETOURNE: "RETOURNE" >
+    | < VRAI: "VRAI" >
+    | < TANTQUE: "TANTQUE" >
+    | <CONST : "CONST">
+    | <FAUX : "FAUX">
+    | <FAIT : "FAIT">
+    | <OU : "OU">
+    | <ET : "ET">
+    | <NON : "NON">
+    | <FONCTION : "FONCTION">
+    | <FFONCTION  : "FFONCTION">
+    | <PROGRAMME : "PROGRAMME" >
+    | <FPROGRAMME: "FPROGRAMME" >
+    | <PRINCIPAL : "PRINCIPAL">
+    | <FPRINCIPAL : "FPRINCIPAL">
+    | <ALORS : "ALORS">
+    | <ECRIRE : "ECRIRE">
+    | <LIRE : "LIRE">
+    | <ALALIGNE : "ALALIGNE">
 }
 
 
@@ -118,17 +130,17 @@ TOKEN :
 /*** unites de base nombres, idents,  strings ***/
 TOKEN  :
 {
-  < #chiffre : ["0"-"9"] >
-| < entier : (<chiffre>)+ > 
-	{ entierLu = Integer.parseInt(image.toString());
+    < #chiffre : ["0"-"9"] >
+    | < entier : (<chiffre>)+ > 
+        { entierLu = Integer.parseInt(image.toString());
         }
-| < #lettre: ["A"-"Z","a"-"z"] >
-| < ident : <lettre> (<lettre> | <chiffre>)* >
-	{identLu =image.toString();	
-	}
-| < chaine : "\"" (~["\""])* "\"" | "'" (~["'"])* "'" >
-	{ chaineLue = image.toString();
-	 }
+    | < #lettre: ["A"-"Z","a"-"z"] >
+    | < ident : <lettre> (<lettre> | <chiffre>)* >
+        {identLu = image.toString();	
+        }
+    | < chaine : "\"" (~["\""])* "\"" | "'" (~["'"])* "'" >
+        { chaineLue = image.toString();
+        }
 }
 
 
@@ -137,59 +149,122 @@ TOKEN  :
 /**************************************/
 void analyse() : {}
 {
-   <PROGRAMME> <ident>	
-   bloc()
-   <FPROGRAMME> 
+    <PROGRAMME>
+        {yvm.add(new Instruction("entete"));}
+    <ident>	
+        {yvm.setOutput(YakaTokenManager.identLu);}
+    bloc()
+    <FPROGRAMME> 
+        {yvm.add(new Instruction("queue"));}
 }
 
 void bloc() : {}{
- (declConst())*
- (declVar())*		
-   suiteExpr() 
+    (declConst())*
+    (declVar())*
+        {tabIdent.end();}
+    // suiteExpr() 
+    suiteInstr() 
 }
 
 void declConst() : {}
 {
-  <CONST>  defConst() ( "," defConst())* ";"
+    <CONST>  defConst() ( "," defConst())* ";"
 }
 
 void defConst() : {}
 {
-	
-  <ident>  	  	
-   "=" valConst()
-    
+    <ident>  	  
+        {tabIdent.setTmpId(YakaTokenManager.identLu);}
+    "=" valConst()
 }
 
 void valConst() : {}{
-  <entier> 		
- | <ident>		
- | <VRAI> 		
- | <FAUX> 		
+    <entier>
+        {tabIdent.setTmpValue(false, Type.INTEGER, YakaTokenManager.entierLu);}
+    | <ident>
+        {tabIdent.setTmpFrom(false, YakaTokenManager.identLu);}
+    | <VRAI> 
+        {tabIdent.setTmpValue(false, Type.BOOLEAN, -1);}
+    | <FAUX>
+        {tabIdent.setTmpValue(false, Type.BOOLEAN, 0);}
 }
 
 
 void declVar() : {}
 {
-  <VAR> type()	
-  <ident>		
-  ("," 
-      <ident>  
-  )* ";"
-	
+    <VAR> type()
+    <ident>
+        {tabIdent.addVar(YakaTokenManager.identLu);}
+    ("," 
+    <ident>
+        {tabIdent.addVar(YakaTokenManager.identLu);}
+    )* ";"
 }
 
 void type() :{}
 {
-   <ENTIER> 			
- | <BOOLEEN>	
+    <ENTIER>
+        {tabIdent.lastType = Type.INTEGER;}
+    | <BOOLEEN>	
+        {tabIdent.lastType = Type.BOOLEAN;}
 }
 /*
  * Syntaxe des instructions.
  */
-void suiteExpr() : {}
-{ (expression() (";" (expression())? )*)? }
+// void suiteExpr() : {}
+// { 
+    // (expression() 
+        // {expression.checkAndClearTypes();}
+    // (";" (expression()
+            // {expression.checkAndClearTypes();}
+        // )? )*)? 
+// }
+void suiteInstr() : {}
+{ 
+    (instruction() 
+        {expression.checkAndClearTypes();}
+    (";" (instruction()
+            {expression.checkAndClearTypes();}
+        )? )*)? 
+}
 
+void instruction() : {}
+{
+    affectation()
+    | lecture()
+    | ecriture()
+}
+
+void affectation(): {}
+{
+    <ident>
+        {expression.pushId(YakaTokenManager.identLu);}
+    "=" 
+    expression()
+        {expression.popId();}
+}
+
+void lecture(): {}
+{
+    <LIRE> 
+    "(" 
+    <ident> 
+        {yvm.read(YakaTokenManager.identLu);}
+    ")"
+}
+
+void ecriture(): {}
+{
+    (<ECRIRE>
+        "("
+        (expression()
+            {yvm.add(new Instruction("ecrireEnt"));}
+        | <chaine>
+            {yvm.add(new Instruction("ecrireChaine", YakaTokenManager.chaineLue));})
+        ")")
+    | <ALALIGNE>
+        {yvm.add(new Instruction("aLaLigne"));}
+}
 
 
 /*
@@ -197,74 +272,98 @@ void suiteExpr() : {}
  */
 void expression() : {}
 {
-  simpleExpr() 
-  (opRel() 
-  simpleExpr() 
-  )?
+    simpleExpr() 
+    (opRel() 
+    simpleExpr() 
+        {expression.popOp();}
+    )?  
 }
-
-
 
 void simpleExpr() : {}
 {
-   terme() 
-   (opAdd() 
-   terme()	
-   )*
+    terme() 
+    (opAdd() 
+    terme()	
+        {expression.popOp();}
+    )*
 } 
+
 void terme() : {}
 {
-  facteur() 
-  (opMul() 
-  facteur()	
-  )*
+    facteur() 
+    (opMul() 
+    facteur()
+        {expression.popOp();}
+    )*
 }
 void facteur() : {}
-{   primaire() 
-  |  opNeg() primaire() 
+{  
+    primaire() 
+    |  opNeg() primaire()  {expression.popOp();}
 }
 
 void primaire (): {}
 {
-   valeur()
- | "(" expression() ")" 
- 
+    valeur()
+    | "(" expression() ")" 
 }
 
 void valeur () : {}
-{ <entier> 		
- | <ident> 		
- | <VRAI> 		
- | <FAUX> 		
- 
+{ 
+    <entier>
+        {expression.loadConst(YakaTokenManager.entierLu);
+        expression.pushType(Type.INTEGER);}
+    | <ident> 
+        {expression.load(YakaTokenManager.identLu);}
+    | <VRAI> 
+        {expression.loadConst(-1);
+        expression.pushType(Type.BOOLEAN);}
+    | <FAUX>
+        {expression.loadConst(0);
+        expression.pushType(Type.BOOLEAN);}
 }
 
 void opRel() : {}
 {
-   "=" 		
- | "<>" 	
- | "<" 		
- | "<=" 	
- | ">" 		
- | ">=" 	
+    "="
+        {expression.pushOp(Op.EQ);}
+    | "<>" 	   
+        {expression.pushOp(Op.NEQ);}
+    | "<" 	
+        {expression.pushOp(Op.LESS);}
+    | "<=" 	
+        {expression.pushOp(Op.LEQ);}
+    | ">" 	
+        {expression.pushOp(Op.GRT);}
+    | ">=" 
+        {expression.pushOp(Op.GRQ);}
 } 
 
 void opAdd() : {}
 {
-    "+"		
-  |  "-"  
-  | <OU> 	
+    "+"	
+        {expression.pushOp(Op.ADD);}
+    |  "-"  
+        {expression.pushOp(Op.SUB);}
+    | <OU> 	
+        {expression.pushOp(Op.OR);}
 }
 
 void opMul() : {}
 {
-  "*"		
-  | "/"		
-  | <ET>	
+    "*"
+        {expression.pushOp(Op.MUL);}
+    | "/"		
+        {expression.pushOp(Op.DIV);}
+    | <ET>	
+        {expression.pushOp(Op.AND);}
 } 
 
 void opNeg() : {}
-{ "-" 		
- | <NON>	
+{ 
+    "-" 
+        {expression.pushOp(Op.NEG);}
+    | <NON>	
+        {expression.pushOp(Op.NOT);}
 }
 

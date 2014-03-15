@@ -1,0 +1,9 @@
+*.class
+ParseException.java
+SimpleCharStream.java
+Token.java
+TokenMgrError.java
+YakaConstants.java
+YakaTokenManager.java
+*.yvm
+*.tmp

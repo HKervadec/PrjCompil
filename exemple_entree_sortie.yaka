@@ -1,0 +1,25 @@
+PROGRAMME es
+VAR ENTIER x,y,z;
+VAR BOOLEEN c1,c2;
+    ECRIRE("x = ");
+    LIRE(x);
+    ALALIGNE;
+    ECRIRE("y = ");
+    LIRE(y);
+    ALALIGNE;
+    ECRIRE("x+y=");
+    ECRIRE(x+y);
+    ALALIGNE;
+    z = (x+y/2)/5;
+    x = y+3*y-4;
+	ECRIRE("z= ");
+	ECRIRE(z);
+	c1 = x < z;
+	c2 = y = z;
+	ECRIRE("c1 = ");
+	ECRIRE(c1);
+	ALALIGNE;
+	ECRIRE("c2 = ");
+	ECRIRE(c2);
+	ALALIGNE;
+FPROGRAMME
