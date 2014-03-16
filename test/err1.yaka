@@ -1,4 +1,6 @@
 PROGRAMME err1
+CONST 
+    a = b;
 VAR ENTIER c1,c2;
 VAR BOOLEEN b1;
     c1=2;

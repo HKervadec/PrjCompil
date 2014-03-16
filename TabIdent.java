@@ -43,7 +43,8 @@ public class TabIdent{
     
     public void setTmpValue(boolean var, Type type, int value){
         Ident id = new Ident(var, this.id_tmp, type, value);
-        this.table.put(this.id_tmp, id);
+        // this.table.put(this.id_tmp, id);
+        this.addId(this.id_tmp, id);
     }
     
     public void setTmpFrom(boolean var, String source){
@@ -52,10 +53,23 @@ public class TabIdent{
                                 this.id_tmp, 
                                 this.table.get(source).getType(), 
                                 this.table.get(source).getValue());
+            this.addId(this.id_tmp, id);
+        }else{
+            Yaka.errorManager.printError(ErrorSource.COMPILER, 
+                                ErrorType.UNDEFINED_IDENT,
+                                source);
+            // System.err.println("Error: " + source + " has not been previously defined.");
+            // System.err.println("");
+        }
+    }
+    
+    private void addId(String name, Ident id){
+        if(this.searchIdent(name) == null){
             this.table.put(this.id_tmp, id);
         }else{
-            System.err.println("Error: " + source + " has not been previously defined.");
-            System.err.println("");
+            Yaka.errorManager.printError(ErrorSource.COMPILER, 
+                                ErrorType.ALREADY_DECLARED,
+                                name);
         }
     }
     
@@ -63,7 +77,8 @@ public class TabIdent{
         Ident id = new Ident(true, name, TabIdent.lastType, this.offset);
         this.offset -= 2;
         
-        this.table.put(name, id);
+        // this.table.put(name, id);
+        this.addId(name, id);
     }
     
     
