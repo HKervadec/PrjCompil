@@ -7,6 +7,7 @@ public class Yaka implements YakaConstants {
     public static Expression expression = new Expression();
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
+    public static LineManager lineManager = new LineManager();
 
 
     public static void main(String args[]) {
@@ -32,6 +33,7 @@ public class Yaka implements YakaConstants {
         }
         try {
             analyseur = new Yaka(input);
+            lineManager.setFile(args[0]);
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
 
@@ -55,9 +57,11 @@ public class Yaka implements YakaConstants {
          yvm.add(new Instruction("entete"));
     jj_consume_token(ident);
          yvm.setOutput(YakaTokenManager.identLu);
+            lineManager.nextLine();
     bloc();
     jj_consume_token(FPROGRAMME);
          yvm.add(new Instruction("queue"));
+         lineManager.nextLine();
   }
 
   static final public void bloc() throws ParseException {
@@ -106,6 +110,7 @@ public class Yaka implements YakaConstants {
       defConst();
     }
     jj_consume_token(41);
+         lineManager.nextLine();
   }
 
   static final public void defConst() throws ParseException {
@@ -160,6 +165,7 @@ public class Yaka implements YakaConstants {
          tabIdent.addVar(YakaTokenManager.identLu);
     }
     jj_consume_token(41);
+         lineManager.nextLine();
   }
 
   static final public void type() throws ParseException {
@@ -197,7 +203,6 @@ public class Yaka implements YakaConstants {
     case ALALIGNE:
     case ident:
       instruction();
-         expression.checkAndClearTypes();
       label_5:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -209,13 +214,13 @@ public class Yaka implements YakaConstants {
           break label_5;
         }
         jj_consume_token(41);
+             lineManager.nextLine();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case ECRIRE:
         case LIRE:
         case ALALIGNE:
         case ident:
           instruction();
-             expression.checkAndClearTypes();
           break;
         default:
           jj_la1[7] = jj_gen;
@@ -306,6 +311,12 @@ public class Yaka implements YakaConstants {
  * Expression .
  */
   static final public void expression() throws ParseException {
+         expression.init();
+    exp();
+         expression.check();
+  }
+
+  static final public void exp() throws ParseException {
     simpleExpr();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 42:

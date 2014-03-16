@@ -1,4 +1,4 @@
-PROGRAMME expr3
+PROGRAMME err1
 VAR ENTIER c1,c2;
 VAR BOOLEEN b1;
         c1=2;

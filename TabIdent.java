@@ -55,6 +55,7 @@ public class TabIdent{
             this.table.put(this.id_tmp, id);
         }else{
             System.err.println("Error: " + source + " has not been previously defined.");
+            System.err.println("");
         }
     }
     

@@ -1,4 +1,4 @@
-PROGRAMME expr3
+PROGRAMME expr4
 VAR ENTIER c1,c2;
         
 	ECRIRE("c1=");
