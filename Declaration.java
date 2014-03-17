@@ -7,9 +7,5 @@ public class Declaration{
 		
 	}
 	
-	public void love(){
-		System.out.println("Ilovecoco");
-	}
-	
 }
 
