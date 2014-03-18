@@ -122,7 +122,6 @@ public class YVMasm{
 				this.ineg();
 				break;
             default:
-                System.out.println("YSMasm: " + inst.inst + " not implemented yet");
                 break;
         }  
         this.code_asm.add("");

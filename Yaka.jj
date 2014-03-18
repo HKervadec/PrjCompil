@@ -23,7 +23,6 @@ public class Yaka {
     public static Expression expression = new Expression();
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
-    public static LineManager lineManager = new LineManager();
     
     
     public static void main(String args[]) { 
@@ -49,7 +48,6 @@ public class Yaka {
         }
         try {
             analyseur = new Yaka(input);
-            lineManager.setFile(args[0]);
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
             
@@ -138,7 +136,7 @@ TOKEN  :
         }
     | < #lettre: ["A"-"Z","a"-"z"] >
     | < ident : <lettre> (<lettre> | <chiffre>)* >
-        {identLu = image.toString();
+        {identLu = image.toString();	
         }
     | < chaine : "\"" (~["\""])* "\"" | "'" (~["'"])* "'" >
         { chaineLue = image.toString();
@@ -154,12 +152,10 @@ void analyse() : {}
     <PROGRAMME>
         {yvm.add(new Instruction("entete"));}
     <ident>	
-        {yvm.setOutput(YakaTokenManager.identLu);
-            lineManager.nextLine();}
+        {yvm.setOutput(YakaTokenManager.identLu);}
     bloc()
     <FPROGRAMME> 
         {yvm.add(new Instruction("queue"));}
-        {lineManager.nextLine();}
 }
 
 void bloc() : {}{
@@ -173,7 +169,6 @@ void bloc() : {}{
 void declConst() : {}
 {
     <CONST>  defConst() ( "," defConst())* ";"
-        {lineManager.nextLine();}
 }
 
 void defConst() : {}
@@ -204,7 +199,6 @@ void declVar() : {}
     <ident>
         {tabIdent.addVar(YakaTokenManager.identLu);}
     )* ";"
-        {lineManager.nextLine();}
 }
 
 void type() :{}
@@ -228,9 +222,9 @@ void type() :{}
 void suiteInstr() : {}
 { 
     (instruction() 
-    (";" 
-            {lineManager.nextLine();}
-        (instruction()
+        {expression.checkAndClearTypes();}
+    (";" (instruction()
+            {expression.checkAndClearTypes();}
         )? )*)? 
 }
 
@@ -245,7 +239,7 @@ void affectation(): {}
 {
     <ident>
         {expression.pushId(YakaTokenManager.identLu);}
-    "="
+    "=" 
     expression()
         {expression.popId();}
 }
@@ -278,18 +272,11 @@ void ecriture(): {}
  */
 void expression() : {}
 {
-        {expression.init();}
-    exp() 
-        {expression.check();}
-}
-
-void exp(): {}
-{
     simpleExpr() 
     (opRel() 
     simpleExpr() 
         {expression.popOp();}
-    )? 
+    )?  
 }
 
 void simpleExpr() : {}
@@ -318,9 +305,7 @@ void facteur() : {}
 void primaire (): {}
 {
     valeur()
-    | "(" 
-        expression() 
-        ")" 
+    | "(" expression() ")" 
 }
 
 void valeur () : {}

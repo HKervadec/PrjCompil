@@ -1,4 +1,4 @@
-PROGRAMME err3
+PROGRAMME max
 CONST 
 	a=2,
 	b=a,

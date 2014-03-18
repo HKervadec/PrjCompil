@@ -1,4 +1,4 @@
-PROGRAMME expr2
+PROGRAMME max
 CONST 
 	aa=10,
 	ba=VRAI,

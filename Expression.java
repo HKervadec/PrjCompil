@@ -12,21 +12,6 @@ public class Expression{
         this.stack_ops = new Stack<Op>();
         this.stack_ids = new Stack<Ident>(); 
         this.stack_types = new Stack<Type>(); 
-        this.init();
-    }
-    
-    public void init(){
-        this.stack_types = new Stack<Type>();
-    }
-    
-    public void check(){
-        int pos = this.stack_types.search(Type.ERROR);
-        
-        if(pos != -1){
-            System.err.println("Error while parsing the following expression:");
-            System.err.println(Yaka.lineManager);
-            System.err.println("");
-        }
     }
     
     public void pushOp(Op op){
@@ -42,7 +27,6 @@ public class Expression{
         
         if(id == null){
             System.err.println("Error: Identifier doesn't exist");
-            System.err.println("");
             return;
         }
         
@@ -112,7 +96,6 @@ public class Expression{
     // FIXME
     public Type sanity(Op op){
         // System.out.println("sanity: " + this.stack_types);
-        
         Type t1 = this.stack_types.pop();
 		switch(op){
 			case NOT:
@@ -189,7 +172,7 @@ public class Expression{
                         return Type.ERROR;
                 }
             default:
-            return Type.ERROR;
+                return Type.ERROR;
         }
     }
     
@@ -198,17 +181,11 @@ public class Expression{
         
         if(!id.var){
             System.err.println("Error: Trying to change the value of a constant");
-            System.err.println("");
             return;
         }
         
-        Type tmp = this.stack_types.pop();
-        if(id.getType() != tmp){
+        if(id.getType() != this.stack_types.pop()){
             System.err.println("Warning: types mismatch");
-            System.err.println(id.id + " = ");
-            System.err.println("Expected: " + id.getType());
-            System.err.println("Got: " + tmp);
-            System.err.println("");
         }
         
         Yaka.yvm.add(new Instruction("istore", id.getValue()));
@@ -220,7 +197,6 @@ public class Expression{
         
         if(id == null){
             System.err.println("Error: Identifier doesn't exist");
-            System.err.println("");
         }else{
             if(id.var){
                 this.loadVar(id.getValue());
@@ -243,5 +219,16 @@ public class Expression{
     
     public void neg(){
         Yaka.yvm.add(new Instruction("ineg"));
+    }
+    
+    
+    public void checkAndClearTypes(){
+        int pos = this.stack_types.search(Type.ERROR);
+        
+        if(pos != -1){
+            System.err.println("Error while parsing the expression.");
+        }
+        
+        this.stack_types = new Stack<Type>();
     }
 }
