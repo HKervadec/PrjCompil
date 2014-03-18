@@ -19,8 +19,9 @@ public class LineManager{
         try{
             this.file = new BufferedReader(new FileReader(fileName));
         }catch(Exception e){
-            System.err.println("LineManager: Error, file not found: " + fileName);
-            System.err.println(e.getMessage());
+            // System.err.println("LineManager: Error, file not found: " + fileName);
+            // System.err.println(e.getMessage());
+            Yaka.errorManager.printError(ErrorSource.LINEMANAGER, ErrorType.FILE_NOT_FOUND, filename);
         }
         // System.out.println("LineManager: " + fileName + " successfully opened");
         

@@ -24,6 +24,7 @@ public class Yaka {
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
     public static LineManager lineManager = new LineManager();
+    public static ErrorManager errorManager = new ErrorManager();
     
     
     public static void main(String args[]) { 
@@ -74,6 +75,7 @@ public class Yaka {
         
         yvm.asm.getOutput().println(yvm.asm);
         yvm.asm.getOutput().close();
+        errorManager.finalPrint();
     }
 }
 
