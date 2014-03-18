@@ -7,3 +7,4 @@ YakaConstants.java
 YakaTokenManager.java
 *.yvm
 *.tmp
+*.asm

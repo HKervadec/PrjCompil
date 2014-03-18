@@ -1,4 +1,4 @@
-PROGRAMME max
+PROGRAMME expr1
 CONST 
 	a=2,
 	b=a,
