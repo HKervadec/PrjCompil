@@ -2,13 +2,14 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 public class LineManager{
+    private String fileName;
     private String current_line;
     private int line_number;
     private BufferedReader file;
     
-    // public String getLine(){
-        // return this.current_line;
-    // }
+    public String getLine(){
+        return this.current_line;
+    }
 
     
     public LineManager(){
@@ -21,10 +22,13 @@ public class LineManager{
         }catch(Exception e){
             // System.err.println("LineManager: Error, file not found: " + fileName);
             // System.err.println(e.getMessage());
-            Yaka.errorManager.printError(ErrorSource.LINEMANAGER, ErrorType.FILE_NOT_FOUND, filename);
+            Yaka.errorManager.printError(ErrorSource.LINEMANAGER, 
+                                            ErrorType.FILE_NOT_FOUND, 
+                                            fileName);
         }
         // System.out.println("LineManager: " + fileName + " successfully opened");
         
+        this.fileName = fileName;
         this.nextLine();
     }
     
@@ -33,11 +37,17 @@ public class LineManager{
         try{
             this.current_line = this.file.readLine();
         }catch(Exception e){
-            System.err.println("LineManager: Error, end of file found.");
+            // System.err.println("LineManager: Error, end of file found.");
+            Yaka.errorManager.printError(ErrorSource.LINEMANAGER, 
+                                            ErrorType.END_OF_FILE, 
+                                            this.fileName);
         }
         
         if(this.current_line == null){
-            System.err.println("LineManager: Error, end of file found.");
+            // System.err.println("LineManager: Error, end of file found.");
+            Yaka.errorManager.printError(ErrorSource.LINEMANAGER, 
+                                            ErrorType.END_OF_FILE, 
+                                            this.fileName);
         }
         
         this.line_number++;
