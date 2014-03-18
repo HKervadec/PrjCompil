@@ -24,7 +24,6 @@ public class Yaka {
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
     public static LineManager lineManager = new LineManager();
-    public static ErrorManager errorManager = new ErrorManager();
     
     
     public static void main(String args[]) { 
@@ -54,23 +53,17 @@ public class Yaka {
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
             
-           the_end();
+            yvm.getOutput().println(yvm);
+            yvm.getOutput().close();
+            
+            yvm.asm.getOutput().println(yvm.asm);
+            yvm.asm.getOutput().close();
         } catch (ParseException e) {
             String msg = e.getMessage();
             msg = msg.substring(0,msg.indexOf("\n"));
             System.out.println("Erreur de syntaxe : "+msg);
         }
-    }
-
-    public static void the_end(){
-        yvm.getOutput().println(yvm);
-        yvm.getOutput().close();
-        
-        yvm.asm.getOutput().println(yvm.asm);
-        yvm.asm.getOutput().close();
-        
-        errorManager.finalPrint();
-    }
+    } 
 }
 
 PARSER_END(Yaka)
@@ -179,14 +172,12 @@ void bloc() : {}{
 
 void declConst() : {}
 {
-        {lineManager.nextLine();}
     <CONST>  defConst() ( "," defConst())* ";"
         {lineManager.nextLine();}
 }
 
 void defConst() : {}
 {
-        {lineManager.nextLine();}
     <ident>  	  
         {tabIdent.setTmpId(YakaTokenManager.identLu);}
     "=" valConst()
@@ -206,7 +197,6 @@ void valConst() : {}{
 
 void declVar() : {}
 {
-        // {lineManager.nextLine();}
     <VAR> type()
     <ident>
         {tabIdent.addVar(YakaTokenManager.identLu);}
@@ -238,19 +228,17 @@ void type() :{}
 void suiteInstr() : {}
 { 
     (instruction() 
-    (";"   /* {System.out.println("nextLine");
-            System.out.println(lineManager);} */
-           // {lineManager.nextLine();}
+    (";" 
+            {lineManager.nextLine();}
         (instruction()
-            // {lineManager.nextLine();}
         )? )*)? 
 }
 
 void instruction() : {}
 {
-    {lineManager.nextLine();} affectation() 
-    | {lineManager.nextLine();} lecture() 
-    | {lineManager.nextLine();} ecriture() 
+    affectation()
+    | lecture()
+    | ecriture()
 }
 
 void affectation(): {}

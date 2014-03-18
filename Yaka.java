@@ -8,7 +8,6 @@ public class Yaka implements YakaConstants {
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
     public static LineManager lineManager = new LineManager();
-    public static ErrorManager errorManager = new ErrorManager();
 
 
     public static void main(String args[]) {
@@ -38,22 +37,16 @@ public class Yaka implements YakaConstants {
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
 
-           the_end();
+            yvm.getOutput().println(yvm);
+            yvm.getOutput().close();
+
+            yvm.asm.getOutput().println(yvm.asm);
+            yvm.asm.getOutput().close();
         } catch (ParseException e) {
             String msg = e.getMessage();
             msg = msg.substring(0,msg.indexOf("\u005cn"));
             System.out.println("Erreur de syntaxe : "+msg);
         }
-    }
-
-    public static void the_end(){
-        yvm.getOutput().println(yvm);
-        yvm.getOutput().close();
-
-        yvm.asm.getOutput().println(yvm.asm);
-        yvm.asm.getOutput().close();
-
-        errorManager.finalPrint();
     }
 
 /**************************************/
@@ -101,7 +94,6 @@ public class Yaka implements YakaConstants {
   }
 
   static final public void declConst() throws ParseException {
-         lineManager.nextLine();
     jj_consume_token(CONST);
     defConst();
     label_3:
@@ -122,7 +114,6 @@ public class Yaka implements YakaConstants {
   }
 
   static final public void defConst() throws ParseException {
-         lineManager.nextLine();
     jj_consume_token(ident);
          tabIdent.setTmpId(YakaTokenManager.identLu);
     jj_consume_token(42);
@@ -223,6 +214,7 @@ public class Yaka implements YakaConstants {
           break label_5;
         }
         jj_consume_token(41);
+             lineManager.nextLine();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case ECRIRE:
         case LIRE:
@@ -245,16 +237,13 @@ public class Yaka implements YakaConstants {
   static final public void instruction() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ident:
-     lineManager.nextLine();
       affectation();
       break;
     case LIRE:
-       lineManager.nextLine();
       lecture();
       break;
     case ECRIRE:
     case ALALIGNE:
-       lineManager.nextLine();
       ecriture();
       break;
     default:
