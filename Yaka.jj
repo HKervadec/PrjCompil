@@ -23,6 +23,7 @@ public class Yaka {
     public static Expression expression = new Expression();
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
+    public static LineManager lineManager = new LineManager();
     
     
     public static void main(String args[]) { 
@@ -31,7 +32,7 @@ public class Yaka {
 
 
         if (args.length==1) {
-            System.out.println(args[args.length-1] + ": ");
+            // System.out.println(args[args.length-1] + ": ");
             try {
                 // input = new java.io.FileInputStream(args[args.length-1]+".yaka");
                 input = new java.io.FileInputStream(args[args.length-1]);
@@ -48,20 +49,32 @@ public class Yaka {
         }
         try {
             analyseur = new Yaka(input);
+            
+            begin(args[0]);
+            
             analyseur.analyse();
             System.out.println("analyse syntaxique reussie!");
             
-            yvm.getOutput().println(yvm);
-            yvm.getOutput().close();
             
-            yvm.asm.getOutput().println(yvm.asm);
-            yvm.asm.getOutput().close();
+            the_end();
         } catch (ParseException e) {
             String msg = e.getMessage();
             msg = msg.substring(0,msg.indexOf("\n"));
             System.out.println("Erreur de syntaxe : "+msg);
-        }
+        } 
     } 
+    
+    public static void begin(String fileName){
+        lineManager.setFile(fileName);
+    }
+    
+    public static void the_end(){
+        yvm.getOutput().println(yvm);
+        yvm.getOutput().close();
+        
+        yvm.asm.getOutput().println(yvm.asm);
+        yvm.asm.getOutput().close();
+    }
 }
 
 PARSER_END(Yaka)
@@ -78,7 +91,7 @@ SKIP :
 {
       " "
     | "\t"
-    | "\n"
+    | "\n" {Yaka.lineManager.nextLine();}
     | "\r"
     | "(*"   : IN_COMMENT
 }

@@ -1,7 +1,7 @@
 import os
 
 testFolder = "test"
-testFiles = ["exemple_expression.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
+testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
             "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka"]
 trashName = "trash"
 
@@ -9,6 +9,8 @@ trashName = "trash"
 print("**** Compiling... ****")
 os.system("javacc Yaka.jj")
 os.system("javac *.java")
+print()
+
 
 
 print("**** Launching tests ****")
@@ -20,6 +22,7 @@ for file in testFiles:
     os.system("java Yaka {0}\{1}".format(testFolder, file))
     print()
     
+print()
 
     
 print("**** Cleaning Up ****")

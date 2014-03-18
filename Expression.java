@@ -184,8 +184,13 @@ public class Expression{
             return;
         }
         
-        if(id.getType() != this.stack_types.pop()){
+        Type tmp = this.stack_types.peek();
+        // if(id.getType() != this.stack_types.pop()){
+        if(id.getType() != tmp && tmp != Type.ERROR){
             System.err.println("Warning: types mismatch");
+            System.err.println(Yaka.lineManager);
+            System.err.println("Expected: " + id.getType());
+            System.err.println("Got: " + tmp);
         }
         
         Yaka.yvm.add(new Instruction("istore", id.getValue()));

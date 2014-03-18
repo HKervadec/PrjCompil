@@ -5,6 +5,7 @@ Token.java
 TokenMgrError.java
 YakaConstants.java
 YakaTokenManager.java
+Yaka.java
 *.yvm
 *.tmp
 *.asm
