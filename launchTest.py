@@ -1,3 +1,5 @@
+# Fuck this I don't need to comment it
+
 import os
 
 testFolder = "test"

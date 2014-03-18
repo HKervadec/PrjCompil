@@ -1,3 +1,11 @@
+/**
+ * An instruction in the YVM.
+ * Each line of a .yvm is an instruction.
+ * The options are usefull for the asm translation, otherwise we would just 
+ * have used strings.
+ */
+
+
 public class Instruction{
     public String inst;
     public boolean hasOption1;

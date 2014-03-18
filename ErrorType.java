@@ -1,3 +1,8 @@
+/**
+ * List the errors, and associate the message displayed to the user.
+ * Everytime you want to create a new error, you have to put it here, and call
+ * the error manager with the appropriate ErrorType.
+ */
 public enum ErrorType{
     FILE_NOT_FOUND ("File not found."),
     END_OF_FILE ("End of file found."),

@@ -1,3 +1,9 @@
+/**
+ * An identifier is the way we save variables and const.
+ * Fuck this I'm not going to explain this, read the code.
+ */
+
+
 public class Ident{
     public boolean var;
     public String id;

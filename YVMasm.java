@@ -1,10 +1,27 @@
 import java.util.ArrayList;
 import java.io.PrintWriter;
 
+
+/**
+ * As YVM, but for asm
+ * A string of asm code
+ * And a printer.
+ * Why do not use inheritance?
+ * idk
+ */
+
 public class YVMasm{
     private ArrayList<String> code_asm;
     private PrintWriter output;
+    
+    /**
+     * Used for the .DATA
+     * Each string is named "mess<id>"
+     */
     private int idMess;
+    /**
+     * Used for the ifs, two avoid label collisions.
+     */
     private int idTrue;
     
     public PrintWriter getOutput(){
@@ -34,6 +51,9 @@ public class YVMasm{
         return result;
     }
     
+    /**
+     * Header of the asm program
+     */
     private void header(){
         this.code_asm.add("extrn lirent:proc, ecrent:proc");
         this.code_asm.add("extrn ecrbool:proc");
@@ -47,6 +67,11 @@ public class YVMasm{
         this.code_asm.add("\tSTARTUPCODE");
     }
     
+    
+    /**
+     * Footer of the program
+     * 
+     */
     public void footer(){
         this.code_asm.add("\tnop");
         this.code_asm.add("\tEXITCODE");
@@ -54,6 +79,13 @@ public class YVMasm{
     }
     
     
+    /**
+     * What have I done?
+     * Get an instruction and call the best suited function to generate the 
+     * asm code.
+     * I will _NOT_ comment each function.
+     * @param inst 
+     */
     public void translateToAsm(Instruction inst){
         this.code_asm.add("\t; " + inst);
         
