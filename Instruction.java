@@ -10,12 +10,19 @@ public class Instruction{
     public String inst;
     public boolean hasOption1;
     public boolean hasOption2;
+    public boolean isLabel;
     public int option1;
     public String option2;
     
     public Instruction(String inst){
         this.inst = inst;
         this.hasOption1 = false;
+        this.hasOption2 = false;
+    }
+    
+    public Instruction(String inst, boolean label){
+        this(inst);
+        this.isLabel = label;
     }
     
     public Instruction(String inst, int option){

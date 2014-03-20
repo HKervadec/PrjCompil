@@ -25,6 +25,7 @@ public class Yaka {
     public static YVM yvm = new YVM();
     public static LineManager lineManager = new LineManager();
     public static ErrorManager errorManager = new ErrorManager();
+    public static Iteration iteration = new Iteration();
     
     
     public static void main(String args[]) { 
@@ -138,6 +139,9 @@ TOKEN :
     | <ECRIRE : "ECRIRE">
     | <LIRE : "LIRE">
     | <ALALIGNE : "ALALIGNE">
+    // | <TANTQUE : "TANTQUE">
+    // | <FAIRE : "FAIRE">
+    // | <FAIT : "FAIT">
 }
 
 
@@ -248,6 +252,7 @@ void instruction() : {}
     affectation()
     | lecture()
     | ecriture()
+    | iteration()
 }
 
 void affectation(): {}
@@ -279,6 +284,24 @@ void ecriture(): {}
         ")")
     | <ALALIGNE>
         {yvm.add(new Instruction("aLaLigne"));}
+}
+
+/* 
+ *Iteration 
+ */
+
+void iteration() : {}
+{
+    <TANTQUE>
+        {Yaka.iteration.putHead();}
+    expression()
+        /* Do not forget to check if the result is a boolean */
+        {Yaka.expression.check(Type.BOOLEAN);}
+    <FAIRE>
+        {Yaka.iteration.putJmp();}
+    suiteInstr()
+    <FAIT>
+        {Yaka.iteration.goto_end();}
 }
 
 

@@ -8,10 +8,11 @@ public enum ErrorType{
     END_OF_FILE ("End of file found."),
     EXPRESSION_ERROR ("Error while parsing the following expression:"),
     MISSING_IDENTIFIER ("Identifier does not exist."),
-    UNDEFINED_IDENT ("Identifier hasn't been previously defined"),
-    RAPING_CONST ("Trying to change the value of a constant"),
-    TYPES_MISMATCH ("Types mismatch"),
-    ALREADY_DECLARED ("Identifier already declared");
+    UNDEFINED_IDENT ("Identifier hasn't been previously defined."),
+    RAPING_CONST ("Trying to change the value of a constant."),
+    TYPES_MISMATCH ("Types mismatch."),
+    ALREADY_DECLARED ("Identifier already declared."),
+    UNEXPECTED_TYPE ("Type is not the one expected.");
     
     String message;
     ErrorType(String message){

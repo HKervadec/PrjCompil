@@ -334,4 +334,17 @@ public class Expression{
         
         this.stack_types = new Stack<Type>();
     }
+    
+    public void check(Type expected_result){
+        Type result = this.stack_types.pop();
+        if(result != expected_result){
+            String option = "Expected: " + expected_result + "\n";
+            option += "Found: " + result;
+            Yaka.errorManager.printError(ErrorSource.COMPILER,
+                                            ErrorType.UNEXPECTED_TYPE,
+                                            option);
+        }
+        
+        this.stack_types = new Stack<Type>();
+    }
 }

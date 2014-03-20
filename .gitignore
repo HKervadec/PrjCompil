@@ -8,5 +8,6 @@ YakaTokenManager.java
 Yaka.java
 *.yvm
 *.tmp
-*.asm
+asm/*
+yvm/*
 trace.txt

@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 public class YVMasm{
     private ArrayList<String> code_asm;
     private PrintWriter output;
+    public static String folder = "asm\\";
+    // public static String folder = "";
     
     /**
      * Used for the .DATA
@@ -37,8 +39,12 @@ public class YVMasm{
     
     public void setOutput(String name){
         try{
-            this.output = new PrintWriter(name + ".asm", "UTF-8");
-        }catch(Exception e){}
+            this.output = new PrintWriter(YVMasm.folder + name + ".asm", "UTF-8");
+        }catch(Exception e){
+            Yaka.errorManager.printError(ErrorSource.YVMasm,
+                                            ErrorType.FILE_NOT_FOUND,
+                                            YVMasm.folder + name + ".asm");
+        }
     }
     
     public String toString(){
@@ -88,6 +94,12 @@ public class YVMasm{
      */
     public void translateToAsm(Instruction inst){
         this.code_asm.add("\t; " + inst);
+        
+        if(inst.isLabel){
+            this.code_asm.add(inst.toString());
+            return;
+        }
+        
         
         switch(inst.inst){
             case "entete":
@@ -153,6 +165,12 @@ public class YVMasm{
 			case "ineg":
 				this.ineg();
 				break;
+            case "iffaux":
+                this.iffaux(inst.option2);
+                break;
+            case "goto":
+                this.goto_(inst.option2);
+                break;
             default:
                 break;
         }  
@@ -262,4 +280,14 @@ public class YVMasm{
 		this.code_asm.add("\tpush ax");
 		
 	}
+    
+    private void iffaux(String label){
+        this.code_asm.add("\tpop ax");
+        this.code_asm.add("\tcmp ax,0");
+        this.code_asm.add("\tje " + label);
+    }
+    
+    private void goto_(String label){
+        this.code_asm.add("\tjmp " + label);
+    }
 }

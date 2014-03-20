@@ -4,7 +4,8 @@ import subprocess
 
 testFolder = "test"
 testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
-            "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka"]
+            "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka", \
+            "exemple_iteration.yaka"]
 trashName = "trash"
 
 def pPrint(ab): 

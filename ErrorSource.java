@@ -8,7 +8,9 @@
  */
 public enum ErrorSource{
     COMPILER ("Compiler"), 
-    LINEMANAGER ("LineManager");
+    LINEMANAGER ("LineManager"),
+    YVM ("YVM"),
+    YVMasm ("YVMasm");
     
     String message;
     ErrorSource(String message){

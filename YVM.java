@@ -12,6 +12,8 @@ public class YVM{
     private ArrayList<Instruction> code_yvm;
     private PrintWriter output;
     public YVMasm asm;
+    public static String folder = "yvm\\";
+    // public static String folder = "";
     
     public PrintWriter getOutput(){
         return this.output;
@@ -56,8 +58,12 @@ public class YVM{
      */    
     public void setOutput(String name){
         try{
-            this.output = new PrintWriter(name + ".yvm", "UTF-8");
-        }catch(Exception e){}
+            this.output = new PrintWriter(YVM.folder + name + ".yvm", "UTF-8");
+        }catch(Exception e){
+            Yaka.errorManager.printError(ErrorSource.YVM,
+                                            ErrorType.FILE_NOT_FOUND,
+                                            YVM.folder + name + ".asm");
+        }
         
         this.asm.setOutput(name);
     }
