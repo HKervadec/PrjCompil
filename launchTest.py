@@ -1,16 +1,20 @@
 # Fuck this I don't need to comment it
 
-import os
+import subprocess
 
 testFolder = "test"
 testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
             "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka"]
 trashName = "trash"
 
+def pPrint(ab): 
+    # print(ab)
+    ab = ab.replace(b'\r',b'')
+    print(ab.decode("utf-8"))
 
 print("**** Compiling... ****")
-os.system("javacc Yaka.jj")
-os.system("javac *.java")
+pPrint(subprocess.check_output(["javacc", "Yaka.jj"], shell=True))
+pPrint(subprocess.check_output(["javac", "*.java"], shell=True))
 print()
 
 
@@ -20,12 +24,11 @@ print("**** Launching tests ****")
 
 for file in testFiles:
     print(">>> " + file)
-    # os.system("java Yaka {0}\{1} > trash".format(testFolder, file))
-    os.system("java Yaka {0}\{1}".format(testFolder, file))
+    pPrint(subprocess.check_output(["java", "Yaka", "{0}\{1}".format(testFolder, file)], shell=True))
     print()
     
 print()
 
     
 print("**** Cleaning Up ****")
-os.system("del *.asm *.yvm trash")
+pPrint(subprocess.check_output(["del", "*.asm", "*.yvm", "trash"], shell=True))

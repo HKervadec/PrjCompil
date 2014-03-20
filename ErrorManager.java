@@ -60,14 +60,14 @@ public class ErrorManager{
      * @param o The option. If "", does not print anything
      */
     private void print(String t, ErrorSource s, ErrorType e, String o){
-        System.err.print(t + " - " + s.getMessage() + "\n");
-        System.err.println("* " + e.getMessage());
+        System.out.print(t + " - " + s.getMessage() + "\n");
+        System.out.println("* " + e.getMessage());
         
         if(o != ""){
-            System.err.println("* " + o);
+            System.out.println("* " + o);
         }
         
-        System.err.println("* " + Yaka.lineManager + "\n");
+        System.out.println("* " + Yaka.lineManager + "\n");
     }
     
     
@@ -77,6 +77,6 @@ public class ErrorManager{
      * you're doing.
      */
     public void finalPrint(){
-        System.err.printf("%d errors, %d warnings\n", this.error_count, this.warning_count);
+        System.out.printf("%d errors, %d warnings\n", this.error_count, this.warning_count);
     }
 }

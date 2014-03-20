@@ -9,3 +9,4 @@ Yaka.java
 *.yvm
 *.tmp
 *.asm
+trace.txt
