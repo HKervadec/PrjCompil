@@ -18,7 +18,7 @@ PARSER_BEGIN(Yaka)
 
 public class Yaka {
     public static Constante constante = new Constante();
-    public static Declaration declaration = new Declaration();
+    public static Variable variable = new Variable();
     public static Expression expression = new Expression();
     public static TabIdent tabIdent = new TabIdent();
     public static YVM yvm = new YVM();
@@ -174,7 +174,7 @@ void analyse() : {}
 void bloc() : {}{
     (declConst())*
     (declVar())*
-        {tabIdent.end();}
+        {variable.end();}
     // suiteExpr() 
     suiteInstr() 
 }
@@ -207,19 +207,19 @@ void declVar() : {}
 {
     <VAR> type()
     <ident>
-        {tabIdent.addVar(YakaTokenManager.identLu);}
+        {variable.addVar(YakaTokenManager.identLu);}
     ("," 
     <ident>
-        {tabIdent.addVar(YakaTokenManager.identLu);}
+        {variable.addVar(YakaTokenManager.identLu);}
     )* ";"
 }
 
 void type() :{}
 {
     <ENTIER>
-        {tabIdent.lastType = Type.INTEGER;}
+        {variable.setType(Type.INTEGER);}
     | <BOOLEEN>	
-        {tabIdent.lastType = Type.BOOLEAN;}
+        {variable.setType(Type.BOOLEAN);}
 }
 /*
  * Syntaxe des instructions.

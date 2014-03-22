@@ -17,6 +17,7 @@ def pPrint(ab):
     print(ab)
 
 print("**** Compiling... ****")
+pPrint(subprocess.check_output(["del", "*.class"], shell=True))
 pPrint(subprocess.check_output(["javacc", "Yaka.jj"], shell=True))
 pPrint(subprocess.check_output(["javac", "*.java"], shell=True))
 print()

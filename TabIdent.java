@@ -6,17 +6,11 @@ import java.util.HashMap;
  * and the offset of the variables, with also their names & types.*
  */
 public class TabIdent{
-    // FIXME, I'M UGLY
-    public static Type lastType;
     private HashMap<String, Ident> table;
-    private String id_tmp;
-    
-    private int offset;
    
     
     public TabIdent(){
         this.table = new HashMap<String, Ident>();
-        this.offset = -2;
     }
     
     
@@ -69,34 +63,5 @@ public class TabIdent{
                                             ErrorType.ALREADY_DECLARED,
                                             key);
         }
-    }
-    
-    
-    
-    /**************************************************************************/
-    /*                               VAR                                      */
-    /**************************************************************************/
-    
-    /**
-     * Add a variable in the tab.
-     * It will have the type of the lastType variable.
-     * The offset is automagically managed.
-     * @param name name of the variable.
-     */
-    public void addVar(String name){
-        Ident id = new Ident(true, name, TabIdent.lastType, this.offset);
-        this.offset -= 2;
-        
-        // this.table.put(name, id);
-        this.putIdent(name, id);
-    }
-    
-    /**
-     * Add the ouvrePrinc -nbVar*2.
-     * Is called at the end of the variables declaration.
-     * It is the command used in the yvm to reserve space for the variables.
-     */    
-    public void end(){
-        Yaka.yvm.add(new Instruction("ouvrePrinc", -(this.offset+2)));
     }
 }
