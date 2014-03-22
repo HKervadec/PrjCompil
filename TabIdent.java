@@ -72,59 +72,10 @@ public class TabIdent{
     }
     
     
-    /**
-     * Used for the const declaration.
-     * Fix the name for the next const whose value is set from the functions
-     * set setTmpValue or setTmpFrom.
-     * @param id 
-     */
-    public void setTmpId(String id){
-        this.id_tmp = id;
-    }
     
-    
-    /**
-     * Put an ident in the table (the usuals tests will be done in the putIdent
-     * function.
-     * The value is a fixed value, for example 3,-5, VRAI
-     * The ident will have the nave contained in the id_tmp var.
-     * Mainly (and maybe only) used in the const declaration
-     * @param var is a var or a const
-     * @param type 
-     * @param value 
-     */
-    public void setTmpValue(boolean var, Type type, int value){
-        Ident id = new Ident(var, this.id_tmp, type, value);
-        // this.table.put(this.id_tmp, id);
-        this.putIdent(this.id_tmp, id);
-    }
-    
-    
-    /**
-     * Put an ident in the table (the usuals tests will be done in the putIdent
-     * function.
-     * The ident will have the nave contained in the id_tmp var.
-     * Mainly (and maybe only) used in the const declaration
-     * @param var 
-     * @param source : the ident will have the value of the ident source.
-     * Raise an error if the source does not exist.
-     */
-    public void setTmpFrom(boolean var, String source){
-        if(this.table.containsKey(source)){
-            Ident id = new Ident(var, 
-                                this.id_tmp, 
-                                this.table.get(source).getType(), 
-                                this.table.get(source).getValue());
-            // this.table.put(this.id_tmp, id);
-            this.putIdent(this.id_tmp, id);
-        }else{
-            // System.err.println("Error: " + source + " has not been previously defined.");
-            Yaka.errorManager.printError(ErrorSource.COMPILER,
-                                            ErrorType.UNDEFINED_IDENT,
-                                            source);
-        }
-    }
-    
+    /**************************************************************************/
+    /*                               VAR                                      */
+    /**************************************************************************/
     
     /**
      * Add a variable in the tab.

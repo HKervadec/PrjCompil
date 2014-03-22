@@ -15,7 +15,6 @@
 
 PARSER_BEGIN(Yaka)
 
-// import java.io.FileOutputStream;
 
 public class Yaka {
     public static Constante constante = new Constante();
@@ -34,9 +33,7 @@ public class Yaka {
 
 
         if (args.length==1) {
-            // System.out.println(args[args.length-1] + ": ");
             try {
-                // input = new java.io.FileInputStream(args[args.length-1]+".yaka");
                 input = new java.io.FileInputStream(args[args.length-1]);
             } catch (java.io.FileNotFoundException e) {
                 System.out.println("Fichier introuvable.");
@@ -139,9 +136,6 @@ TOKEN :
     | <ECRIRE : "ECRIRE">
     | <LIRE : "LIRE">
     | <ALALIGNE : "ALALIGNE">
-    // | <TANTQUE : "TANTQUE">
-    // | <FAIRE : "FAIRE">
-    // | <FAIT : "FAIT">
 }
 
 
@@ -192,20 +186,20 @@ void declConst() : {}
 
 void defConst() : {}
 {
-    <ident>  	  
-        {tabIdent.setTmpId(YakaTokenManager.identLu);}
+    <ident>
+        {constante.setConstName(YakaTokenManager.identLu);}
     "=" valConst()
 }
 
 void valConst() : {}{
     <entier>
-        {tabIdent.setTmpValue(false, Type.INTEGER, YakaTokenManager.entierLu);}
+        {constante.setConstValue(YakaTokenManager.entierLu);}
     | <ident>
-        {tabIdent.setTmpFrom(false, YakaTokenManager.identLu);}
+        {constante.setConstValue(YakaTokenManager.identLu);}
     | <VRAI> 
-        {tabIdent.setTmpValue(false, Type.BOOLEAN, -1);}
+        {constante.setConstValue(true);}
     | <FAUX>
-        {tabIdent.setTmpValue(false, Type.BOOLEAN, 0);}
+        {constante.setConstValue(false);}
 }
 
 
@@ -293,15 +287,15 @@ void ecriture(): {}
 void iteration() : {}
 {
     <TANTQUE>
-        {Yaka.iteration.putHead();}
+        {iteration.putHead();}
     expression()
         /* Do not forget to check if the result is a boolean */
-        {Yaka.expression.check(Type.BOOLEAN);}
+        {expression.check(Type.BOOLEAN);}
     <FAIRE>
-        {Yaka.iteration.putJmp();}
+        {iteration.putJmp();}
     suiteInstr()
     <FAIT>
-        {Yaka.iteration.goto_end();}
+        {iteration.goto_end();}
 }
 
 

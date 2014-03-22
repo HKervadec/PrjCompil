@@ -6,12 +6,15 @@ testFolder = "test"
 testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
             "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka", \
             "exemple_iteration.yaka"]
-trashName = "trash"
+# trashName = "trash"
 
 def pPrint(ab): 
     # print(ab)
     ab = ab.replace(b'\r',b'')
-    print(ab.decode("utf-8"))
+    ab = ab.decode("utf-8")
+    ab = '\t' + ab
+    ab = ab.replace('\n', '\n\t')
+    print(ab)
 
 print("**** Compiling... ****")
 pPrint(subprocess.check_output(["javacc", "Yaka.jj"], shell=True))
@@ -32,4 +35,4 @@ print()
 
     
 print("**** Cleaning Up ****")
-pPrint(subprocess.check_output(["del", "*.asm", "*.yvm", "trash"], shell=True))
+pPrint(subprocess.check_output(["del", "*.asm", "*.yvm"], shell=True))

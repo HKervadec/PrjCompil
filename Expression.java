@@ -51,7 +51,6 @@ public class Expression{
         Ident id = Yaka.tabIdent.searchIdent(name);
         
         if(id == null){
-            // System.err.println("Error: Identifier doesn't exist");
             Yaka.errorManager.printError(ErrorSource.COMPILER,
                                             ErrorType.MISSING_IDENTIFIER,
                                             name);
@@ -235,7 +234,6 @@ public class Expression{
         Ident id = this.stack_ids.pop();
         
         if(!id.var){
-            // System.err.println("Error: Trying to change the value of a constant");
             Yaka.errorManager.printError(ErrorSource.COMPILER,
                                             ErrorType.RAPING_CONST,
                                             id.id);
@@ -243,14 +241,7 @@ public class Expression{
         }
         
         Type tmp = this.stack_types.peek();
-        // if(id.getType() != this.stack_types.pop()){
         if(id.getType() != tmp && tmp != Type.ERROR){
-            /* System.err.println("Warning: types mismatch");
-            System.err.println(Yaka.lineManager);
-            System.err.println("Expected: " + id.getType());
-            System.err.println("Got: " + tmp); */
-            
-            
             String option = "Expected: " + id.getType() + "\n";
             option += "Got: " + tmp;
             Yaka.errorManager.printWarning(ErrorSource.COMPILER,
@@ -326,7 +317,6 @@ public class Expression{
         int pos = this.stack_types.search(Type.ERROR);
         
         if(pos != -1){
-            // System.err.println("Error while parsing the expression.");
             Yaka.errorManager.printError(ErrorSource.COMPILER,
                                             ErrorType.EXPRESSION_ERROR);
             

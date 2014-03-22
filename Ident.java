@@ -23,6 +23,10 @@ public class Ident{
         return this.value;
     }
     
+    public void setValue(int value){
+        this.value = value;
+    }
+    
     public Type getType(){
         return this.type;
     }
