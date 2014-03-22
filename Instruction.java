@@ -38,12 +38,16 @@ public class Instruction{
     }
     
     public String toString(){
+        if(this.isLabel){
+            return this.inst;
+        }
+    
         if(this.hasOption1){
-            return this.inst +  " " + this.option1;
+            return "\t" + this.inst +  " " + this.option1;
         }else if(this.hasOption2){
-            return this.inst +  " " + this.option2;
+            return "\t" + this.inst +  " " + this.option2;
         }
         
-        return this.inst;
+        return "\t" + this.inst;
     }
 }

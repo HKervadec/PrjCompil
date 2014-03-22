@@ -25,6 +25,7 @@ public class Yaka {
     public static LineManager lineManager = new LineManager();
     public static ErrorManager errorManager = new ErrorManager();
     public static Iteration iteration = new Iteration();
+    public static Conditionnelle conditionnelle = new Conditionnelle();
     
     
     public static void main(String args[]) { 
@@ -247,6 +248,7 @@ void instruction() : {}
     | lecture()
     | ecriture()
     | iteration()
+    | conditionnelle()
 }
 
 void affectation(): {}
@@ -281,7 +283,7 @@ void ecriture(): {}
 }
 
 /* 
- *Iteration 
+ * Iteration 
  */
 
 void iteration() : {}
@@ -297,6 +299,25 @@ void iteration() : {}
     <FAIT>
         {iteration.goto_end();}
 }
+
+
+/* 
+ * Conditionnelle
+ */
+ 
+void conditionnelle() : {}
+{
+    <SI>
+    expression()
+        {expression.check(Type.BOOLEAN);}
+    <ALORS>
+        {conditionnelle.putHead();}
+    suiteInstr()
+        {conditionnelle.putElse();}
+    ( <SINON> suiteInstr() )?
+    <FSI>
+        {conditionnelle.putEndIf();}
+}   
 
 
 /*

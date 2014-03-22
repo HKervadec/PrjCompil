@@ -26,21 +26,10 @@ public class Constante {
      * @param value 
      */
     public void setConstValue(int value){
-        /* Ident id = new Ident(false, this.const_name, Type.INTEGER, value);
-        
-        Yaka.tabIdent.putIdent(this.const_name, id); */
         this.setConstValue(this.const_name, Type.INTEGER, value);
     }
     
-    public void setConstValue(boolean value){
-        /* Ident id = new Ident(false, this.const_name, Type.BOOLEAN, 0);
-        
-        if(value){
-            id.setValue(-1);
-        }
-        
-        Yaka.tabIdent.putIdent(this.const_name, id); */
-        
+    public void setConstValue(boolean value){        
         if(value){
             this.setConstValue(this.const_name, Type.BOOLEAN, -1);
         }else{

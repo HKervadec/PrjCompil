@@ -93,12 +93,12 @@ public class YVMasm{
      * @param inst 
      */
     public void translateToAsm(Instruction inst){
-        this.code_asm.add("\t; " + inst);
-        
         if(inst.isLabel){
             this.code_asm.add(inst.toString());
             return;
         }
+        
+        this.code_asm.add("\t; " + inst);
         
         
         switch(inst.inst){
