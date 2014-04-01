@@ -1,12 +1,20 @@
+#!/usr/bin/python3
+
 # Fuck this I don't need to comment it
 
-import subprocess
+from subprocess import *
 
 testFolder = "test"
 testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
             "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka", \
             "exemple_iteration.yaka", "exemple_conditionnelle.yaka"]
-# trashName = "trash"
+
+firstCleanup = ["*.class", "TokenMgrError.java", "ParseException.java",\
+                "Token.java", "SimpleCharStream.java"]
+
+shellV = False
+delC = "rm"
+delO = "-f"
 
 def pPrint(ab): 
     # print(ab)
@@ -17,9 +25,9 @@ def pPrint(ab):
     print(ab)
 
 print("**** Compiling... ****")
-pPrint(subprocess.check_output(["del", "*.class"], shell=True))
-pPrint(subprocess.check_output(["javacc", "Yaka.jj"], shell=True))
-pPrint(subprocess.check_output(["javac", "*.java"], shell=True))
+pPrint(check_output([delC, delO] + firstCleanup, shellV, stderr=STDOUT))
+pPrint(check_output("javacc Yaka.jj", shell=True, stderr=STDOUT))
+pPrint(check_output("javac *.java", shell=True, stderr=STDOUT))
 print()
 
 
@@ -29,11 +37,12 @@ print("**** Launching tests ****")
 
 for file in testFiles:
     print(">>> " + file)
-    pPrint(subprocess.check_output(["java", "Yaka", "{0}\{1}".format(testFolder, file)], shell=True))
+    pPrint(check_output("java Yaka {0}/{1}".format(testFolder, file), \
+                        shell=True, stderr=STDOUT))
     print()
     
 print()
 
     
 print("**** Cleaning Up ****")
-pPrint(subprocess.check_output(["del", "*.asm", "*.yvm"], shell=True))
+pPrint(check_output(delC + " -f *.asm *.yvm", shell=True,stderr=STDOUT))

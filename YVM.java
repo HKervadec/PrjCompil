@@ -12,7 +12,7 @@ public class YVM{
     private ArrayList<Instruction> code_yvm;
     private PrintWriter output;
     public YVMasm asm;
-    public static String folder = "yvm\\";
+    public static String folder = "yvm/";
     // public static String folder = "";
     
     public PrintWriter getOutput(){

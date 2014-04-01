@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class YVMasm{
     private ArrayList<String> code_asm;
     private PrintWriter output;
-    public static String folder = "asm\\";
+    public static String folder = "asm/";
     // public static String folder = "";
     
     /**
