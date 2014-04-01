@@ -2,28 +2,30 @@ import java.util.ArrayList;
 import java.io.PrintWriter;
 
 public class YVMasm{
-    private ArrayList<String> code_asm;
-    private PrintWriter output;
+    private ArrayList<String> code_asm; //List of ASMinstruction 
+    private PrintWriter output; //Allow us to print the file with the instructions
     private int idMess;
     private int idTrue;
     
+	//getter
     public PrintWriter getOutput(){
         return this.output;
     }
     
-    
+    //Constructor
     public YVMasm(){
         this.code_asm = new ArrayList<String>();
         this.idMess = 0;
     }
     
-    
+    //setter
     public void setOutput(String name){
         try{
             this.output = new PrintWriter(name + ".asm", "UTF-8");
         }catch(Exception e){}
     }
     
+	//tostring for the printWriter
     public String toString(){
         String result = "";
         
@@ -34,6 +36,7 @@ public class YVMasm{
         return result;
     }
     
+	//translate the entete in asm code
     private void header(){
         this.code_asm.add("extrn lirent:proc, ecrent:proc");
         this.code_asm.add("extrn ecrbool:proc");
@@ -47,6 +50,7 @@ public class YVMasm{
         this.code_asm.add("\tSTARTUPCODE");
     }
     
+	//translate queue in asm code
     public void footer(){
         this.code_asm.add("\tnop");
         this.code_asm.add("\tEXITCODE");
@@ -122,6 +126,7 @@ public class YVMasm{
 				this.ineg();
 				break;
             default:
+				System.err.println("Instruction not defined");
                 break;
         }  
         this.code_asm.add("");
