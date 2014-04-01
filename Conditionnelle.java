@@ -1,20 +1,28 @@
+import java.util.Stack;
+
 public class Conditionnelle{
     private int label_number;
+    private Stack stack_label;
     
-    public Conditionnelle(){}
+    public Conditionnelle(){
+        this.stack_label = new Stack();
+    }
     
     public void putHead(){
         Yaka.yvm.add(new Instruction("iffaux", "SINON" + this.label_number));
+        this.stack_label.push(this.label_number);
+        this.label_number++;
     }
     
     public void putElse(){
-        Yaka.yvm.add(new Instruction("goto", "FSI" + this.label_number));
-        Yaka.yvm.add(new Instruction("SINON" + label_number + ":", true));
+        int label = (int) this.stack_label.peek();
+        Yaka.yvm.add(new Instruction("goto", "FSI" + label));
+        Yaka.yvm.add(new Instruction("SINON" + label + ":", true));
     }
     
     public void putEndIf(){
-        Yaka.yvm.add(new Instruction("FSI" + label_number + ":", true));
-        
-        this.label_number++;
+        int label = (int) this.stack_label.pop();
+
+        Yaka.yvm.add(new Instruction("FSI" + label + ":", true));
     }
 }

@@ -7,7 +7,7 @@ from subprocess import *
 testFolder = "test"
 testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.yaka", \
             "expr4.yaka", "expr5.yaka", "err1.yaka", "err2.yaka", "err3.yaka", \
-            "exemple_iteration.yaka", "exemple_conditionnelle.yaka"]
+            "exemple_iteration.yaka", "exemple_conditionnelle.yaka", "iter2.yaka"]
 
 firstCleanup = ["*.class", "TokenMgrError.java", "ParseException.java",\
                 "Token.java", "SimpleCharStream.java"]
@@ -27,7 +27,8 @@ def pPrint(ab):
 print("**** Compiling... ****")
 pPrint(check_output([delC, delO] + firstCleanup, shellV, stderr=STDOUT))
 pPrint(check_output("javacc Yaka.jj", shell=True, stderr=STDOUT))
-pPrint(check_output("javac *.java", shell=True, stderr=STDOUT))
+pPrint(check_output("javac *.java", shell=True))
+
 print()
 
 

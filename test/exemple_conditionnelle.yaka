@@ -7,6 +7,10 @@ VAR ENTIER i,j, max;
     max = j;
     SI i > j ALORS
         max = i;
+        SI i > 10 ALORS
+            ECRIRE("toto est beau");
+            ALALIGNE;
+        FSI;
     SINON
         max = j;
     FSI;

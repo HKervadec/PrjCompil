@@ -1,20 +1,28 @@
+import java.util.Stack;
+
 public class Iteration{
     private int label_number;
+    private Stack stack_label;
     
-    public Iteration(){}
+    public Iteration(){
+        this.stack_label = new Stack();
+    }
     
     public void putHead(){
         Yaka.yvm.add(new Instruction("FAIRE" + label_number + ":", true));
+        this.stack_label.push(this.label_number);
+        this.label_number++;
     }
     
     public void putJmp(){
-        Yaka.yvm.add(new Instruction("iffaux", "FAIT" + this.label_number));
+        int label = (int) this.stack_label.peek();
+        Yaka.yvm.add(new Instruction("iffaux", "FAIT" + label));
     }
     
     public void goto_end(){
-        Yaka.yvm.add(new Instruction("goto", "FAIRE" + this.label_number));
-        Yaka.yvm.add(new Instruction("FAIT" + label_number + ":", true));
+        int label = (int) this.stack_label.pop();
         
-        this.label_number++;
+        Yaka.yvm.add(new Instruction("goto", "FAIRE" + label));
+        Yaka.yvm.add(new Instruction("FAIT" + label + ":", true));
     }
 }
