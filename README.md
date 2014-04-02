@@ -48,29 +48,37 @@ Un exemple sera probablement plus explicite, même si la grammaire est nécessai
 ### Grammaire
 
 
-| prog | PROGRAMME ident bloc FPROGRAMME|
-| ---- | ---- |
-| bloc | { declConst }* { declVar }* suiteInstr|
-| declConst | CONST defConst {,defConst}*|
-| defConst | ident = valConst|
-| valConst | entier \| ident \| VRAI \| FAUX|
-| declVar | VAR type ident {, ident }*|
-| type | ENTIER | BOOLEEN|
-| suiteInstr | {instruction {; {instruction}+ }* }+|
-| instruction | affectation | lecture | ecriture | iteration | conditionnelle|
-| affectation | ident = expr|
-| lecture | LIRE ( ident )|
-| ecriture | { ECRIRE ( expression | chaine ) } | ALALIGNE|
-| iteration | TANTQUE expr FAIRE suiteInstr FAIT|
-| conditionnelle | SI expr ALORS suiteInstr {SINON suiteInstr}+ FSI|
-| expr | terme { opAdd terme }*|
-| terme | facteur { opMult facteur }*|
-| facteur | opNeg primaire | primaire|
-| valeur | entier | ident | VRAI | FAUX|
-| opRel | > | < | >= | <= | = | <>|
-| opAdd :: = + | - | OU|
-| opMult | * | / | ET|
-| opNef | - | NON
+* prog ::= PROGRAMME ident bloc FPROGRAMME 
+* bloc ::= { declConst }* { declVar }* suiteInstr 
+*
+* declConst ::= CONST defConst {,defConst}* 
+* defConst ::= ident = valConst 
+* valConst ::= entier \| ident \| VRAI \| FAUX 
+*
+* declVar ::= VAR type ident {, ident }* 
+* type ::= ENTIER | BOOLEEN 
+*
+* suiteInstr ::= {instruction {; {instruction}+ }* }+ 
+* instruction ::= affectation | lecture | ecriture | iteration | conditionnelle 
+*
+* affectation ::= ident = expr 
+*
+* lecture ::= LIRE ( ident ) 
+*
+* ecriture ::= { ECRIRE ( expression | chaine ) } | ALALIGNE 
+*
+* iteration ::= TANTQUE expr FAIRE suiteInstr FAIT 
+*
+* conditionnelle ::= SI expr ALORS suiteInstr {SINON suiteInstr}+ FSI 
+*
+* expr ::= terme { opAdd terme }* 
+* terme ::= facteur { opMult facteur }* 
+* facteur ::= opNeg primaire | primaire 
+* valeur ::= entier | ident | VRAI | FAUX 
+* opRel ::= > | < | >= | <= | = | <> 
+* opAdd ::= + ::= - | OU 
+* opMult ::= * | / | ET 
+* opNef ::= - | NON 
 
 
 ## Howto
