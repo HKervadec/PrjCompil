@@ -53,10 +53,10 @@ Un exemple sera probablement plus explicite, même si la grammaire est nécessai
 | bloc | { declConst }* { declVar }* suiteInstr|
 | declConst | CONST defConst {,defConst}*|
 | defConst | ident = valConst|
-| valConst | entier | ident | VRAI | FAUX|
+| valConst | entier \| ident \| VRAI \| FAUX|
 | declVar | VAR type ident {, ident }*|
 | type | ENTIER | BOOLEEN|
-| suiteInstr :: = {instruction {; {instruction}+ }* }+|
+| suiteInstr | {instruction {; {instruction}+ }* }+|
 | instruction | affectation | lecture | ecriture | iteration | conditionnelle|
 | affectation | ident = expr|
 | lecture | LIRE ( ident )|
