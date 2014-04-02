@@ -1,19 +1,19 @@
-Projet Compilateur 3INFO
-================
+# Projet Compilateur 3INFO
+
 
 Le but est d'implémenter un compilateur Yaka vers assembleur intel 8086, en utilisant javacc.
 
 Projet durant presque un semestre, il s'agit de l'aboutissement des modules d'assembleur et de grammaire et languages.
 
 
-Syntaxe Yaka
-========
+## Syntaxe Yaka
+
 
 Un exemple sera probablement plus explicite, même si la grammaire est nécessaire pour saisir toutes les subtilités du language.
 
 
-Exemple
-====
+### Exemple
+
 
 	PROGRAMME max2
 	VAR ENTIER i,j, max;
@@ -45,68 +45,68 @@ Exemple
 
 
 
-Grammaire
-====
-
-- prog ::= PROGRAMME ident bloc FPROGRAMME
-- bloc ::= { declConst }* { declVar }* suiteInstr
-
-- declConst ::= CONST defConst {,defConst}*
-- defConst ::= ident = valConst
-- valConst ::= entier | ident | VRAI | FAUX
-
-- declVar ::= VAR type ident {, ident }*
-- type ::= ENTIER | BOOLEEN
-
-- suiteInstr :: = {instruction {; {instruction}+ }* }+
-
-- instruction ::= affectation | lecture | ecriture | iteration | conditionnelle
-
-- affectation ::= ident = expr
-
-- lecture ::= LIRE ( ident )
-
-- ecriture ::= { ECRIRE ( expression | chaine ) } | ALALIGNE
-
-- iteration ::= TANTQUE expr FAIRE suiteInstr FAIT
-
-- conditionnelle ::= SI expr ALORS suiteInstr {SINON suiteInstr}+ FSI
+### Grammaire
 
 
-- expr ::= terme { opAdd terme }*
-- terme ::= facteur { opMult facteur }*
-- facteur ::= opNeg primaire | primaire
-- valeur ::= entier | ident | VRAI | FAUX
-- opRel ::= > | < | >= | <= | = | <>
-- opAdd :: = + | - | OU
-- opMult ::= * | / | ET
-- opNef ::= - | NON
+| prog | PROGRAMME ident bloc FPROGRAMME|
+| bloc | { declConst }* { declVar }* suiteInstr|
+|----|----|
+| declConst | CONST defConst {,defConst}*|
+| defConst | ident = valConst|
+| valConst | entier | ident | VRAI | FAUX|
+|----|----|
+| declVar | VAR type ident {, ident }*|
+| type | ENTIER | BOOLEEN|
+|----|----|
+| suiteInstr :: = {instruction {; {instruction}+ }* }+|
+|----|----|
+| instruction | affectation | lecture | ecriture | iteration | conditionnelle|
+|----|----|
+| affectation | ident = expr|
+|----|----|
+| lecture | LIRE ( ident )|
+|----|----|
+| ecriture | { ECRIRE ( expression | chaine ) } | ALALIGNE|
+|----|----|
+| iteration | TANTQUE expr FAIRE suiteInstr FAIT|
+|----|----|
+| conditionnelle | SI expr ALORS suiteInstr {SINON suiteInstr}+ FSI|
+|----|----|
+|----|----|
+| expr | terme { opAdd terme }*|
+| terme | facteur { opMult facteur }*|
+| facteur | opNeg primaire | primaire|
+| valeur | entier | ident | VRAI | FAUX|
+| opRel | > | < | >= | <= | = | <>|
+| opAdd :: = + | - | OU|
+| opMult | * | / | ET|
+| opNef | - | NON
 
 
-Howto
-========
+## Howto
 
-Requirements
-====
+
+### Requirements
+
 
 - Jdk
 - javacc 5
 - python3
 
 
-Compiling
-====
+### Compiling
+
 
 	javacc Yaka.jj
 	javac *.java
 
-Running
-====
+### Running
+
 
 	java Yaka <fileToCompile>
 
-Multiple tests
-====
+### Multiple tests
+
 
 	edit the test list in launchTest.py
 	./launchTest.py
