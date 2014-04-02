@@ -1,5 +1,5 @@
 Projet Compilateur 3INFO
-=========
+================
 
 Le but est d'implémenter un compilateur Yaka vers assembleur intel 8086, en utilisant javacc.
 
@@ -7,16 +7,17 @@ Projet durant presque un semestre, il s'agit de l'aboutissement des modules d'as
 
 
 Syntaxe Yaka
-=========
+========
 
 Un exemple sera probablement plus explicite, même si la grammaire est nécessaire pour saisir toutes les subtilités du language.
 
 
 Exemple
-========
+====
 
 	PROGRAMME max2
 	VAR ENTIER i,j, max;
+	VAR BOOLEEN c1,c2;
 	    LIRE(i);
 	    ALALIGNE;
 	    LIRE(j);
@@ -36,12 +37,16 @@ Exemple
 	    	ALALIGNE;
 	    	max = max - 1;
 	    FAIT;
+
+	    c1 = VRAI;
+	    c2 = FAUX;
+	    ECRIRE(c1 ET c2);
 	FPROGRAMME
 
 
 
 Grammaire
-========
+====
 
 - prog ::= PROGRAMME ident bloc FPROGRAMME
 - bloc ::= { declConst }* { declVar }* suiteInstr
@@ -79,28 +84,29 @@ Grammaire
 
 
 Howto
-=========
+========
 
 Requirements
-========
+====
+
 - Jdk
 - javacc 5
 - python3
 
 
 Compiling
-========
+====
 
 	javacc Yaka.jj
 	javac *.java
 
 Running
-========
+====
 
 	java Yaka <fileToCompile>
 
 Multiple tests
-========
+====
 
 	edit the test list in launchTest.py
 	./launchTest.py
