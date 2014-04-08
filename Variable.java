@@ -8,6 +8,10 @@ public class Variable{
     private int offset;
     
     public Variable(){
+        this.reset();
+    }
+
+    public void reset(){
         this.offset = -2;
     }
     
@@ -41,6 +45,7 @@ public class Variable{
      * It is the command used in the yvm to reserve space for the variables.
      */    
     public void end(){
-        Yaka.yvm.add(new Instruction("ouvrePrinc", -(this.offset+2)));
+        // Yaka.yvm.add(new Instruction("ouvrePrinc", -(this.offset+2)));
+        Yaka.yvm.add(new Instruction("ouvreBloc", -(this.offset+2)));
     }
 }

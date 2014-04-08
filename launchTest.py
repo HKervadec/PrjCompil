@@ -11,6 +11,9 @@ testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.ya
             "exemple_iteration.yaka", "exemple_conditionnelle.yaka", "iter2.yaka",\
             "exemple_fct.yaka"]
 
+# testFiles = ["exemple_fct.yaka"]
+# testFiles = []
+
 
 firstCleanup = ["*.class", "TokenMgrError.java", "ParseException.java",\
                 "Token.java", "SimpleCharStream.java", "Yaka.java"]

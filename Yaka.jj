@@ -26,6 +26,8 @@ public class Yaka {
     public static ErrorManager errorManager = new ErrorManager();
     public static Iteration iteration = new Iteration();
     public static Conditionnelle conditionnelle = new Conditionnelle();
+    public static TypeMem typeMem = new TypeMem();
+    public static FctManager fctManager = new FctManager();
     
     
     public static void main(String args[]) { 
@@ -169,6 +171,9 @@ void analyse() : {}
         {yvm.setOutput(YakaTokenManager.identLu);}
     (declFonction())*
     <PRINCIPAL> /* we'll have to change the entete yvm instruction*/
+        {fctManager.reset();
+        fctManager.setCurrentFct(new FctIdent(Type.INTEGER, "main"));
+        fctManager.putFct();}
     bloc()
     <FPRINCIPAL>
     <FPROGRAMME> 
@@ -177,16 +182,24 @@ void analyse() : {}
 
 void declFonction() : {}{
         /*Clear local tabIdent */
+        {fctManager.reset();}
     type()
-        /*Type.pop*/
     <FONCTION>
     <ident> /* Do not forget to disallow main as function name*/
+        /*Type.pop*/
+        {fctManager.setCurrentFct(new FctIdent(typeMem.pop(), 
+                                                YakaTokenManager.identLu));}
     paramForms()
         /* Compute param offset */
-        /* reserve memory */
+        {fctManager.setOffset();}
+        /* Put fct in tabident */
+        /* Label */
+        {fctManager.putFct();}
     bloc()
     <FFONCTION>
         /* free memory */
+        {fctManager.endFct();}
+        // {System.out.println(tabIdent);}
 }
 
 void paramForms() : {}{
@@ -197,8 +210,12 @@ void paramForms() : {}{
 }
 
 void paramForm() : {}{
-    type() 
+    type()
+        {fctManager.addType(typeMem.peek());}
+        // {variable.setType(typeMem.pop());}
     <ident>
+        {fctManager.addVar(YakaTokenManager.identLu, typeMem.peek());}
+        // {System.out.println(YakaTokenManager.identLu);}
 }
 
 
@@ -238,7 +255,9 @@ void valConst() : {}{
 
 void declVar() : {}
 {
-    <VAR> type()
+    <VAR> 
+    type()
+        {variable.setType(typeMem.pop());}
     <ident>
         {variable.addVar(YakaTokenManager.identLu);}
     ("," 
@@ -252,9 +271,11 @@ void declVar() : {}
 void type() :{}
 {
     <ENTIER>
-        {variable.setType(Type.INTEGER);}
-    | <BOOLEEN>	
-        {variable.setType(Type.BOOLEAN);}
+        {typeMem.push(Type.INTEGER);}
+        // {variable.setType(Type.INTEGER);}
+    | <BOOLEEN> 
+        {typeMem.push(Type.BOOLEAN);}
+        // {variable.setType(Type.BOOLEAN);}
 }
 /*
  * Syntaxe des instructions.
@@ -359,6 +380,7 @@ void conditionnelle() : {}
 void retourne() : {}{
     <RETOURNE>
     expression()
+        {fctManager.iReturn();}
 }
 
 
@@ -411,8 +433,9 @@ void valeur () : {}
         expression.pushType(Type.INTEGER);}
     | <ident> 
             {expression.load(YakaTokenManager.identLu);
-                /* will push function call it needed */}
-        (argumentsFonction() /* pop call fct*/)?
+                /* will push function call if needed */}
+        (argumentsFonction()
+            {fctManager.popFct();} /* pop call fct*/)?
     | <VRAI> 
         {expression.loadConst(-1);
         expression.pushType(Type.BOOLEAN);}

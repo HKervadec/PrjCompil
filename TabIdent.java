@@ -7,10 +7,16 @@ import java.util.HashMap;
  */
 public class TabIdent{
     private HashMap<String, Ident> table;
+    private HashMap<String, FctIdent> fct;
    
     
     public TabIdent(){
         this.table = new HashMap<String, Ident>();
+        this.fct = new HashMap<String, FctIdent>();
+    }
+
+    public void clear(){
+        this.table.clear();
     }
     
     
@@ -20,7 +26,13 @@ public class TabIdent{
      * @return String
      */    
     public String toString(){
-        String result = "";
+        String result = "Global:\n";
+
+        for(String key : this.fct.keySet()){
+            result += this.fct.get(key) + "\n";
+        }
+
+        result += "Local:\n";
         
         for(String key : this.table.keySet()){
             result += this.table.get(key) + "\n";
@@ -63,5 +75,29 @@ public class TabIdent{
                                             ErrorType.ALREADY_DECLARED,
                                             key);
         }
+    }
+
+    /* I assume there is only params in the local hashmap*/
+    public void setParamOffset(int paramSize){
+        int i = 4;
+
+        for(Ident id : this.table.values()){
+            id.setValue(i);
+            i += 2;
+        }
+    }
+
+
+    public void putFct(String name, FctIdent f){
+        if(this.fct.get(name) == null){
+            this.fct.put(name, f);
+            // System.out.println("put " + f);
+        }else{
+            // Yaka.errorManager.....
+        }
+    }
+
+    public FctIdent getFunction(String name){
+        return this.fct.get(name);
     }
 }

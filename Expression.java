@@ -15,10 +15,14 @@ public class Expression{
      * Just create the stacks.
      */
     public Expression(){
+        this.reset();
+    }
+
+    public void reset(){
         this.stack_ops = new Stack<Op>();
         this.stack_ids = new Stack<Ident>(); 
-        this.stack_types = new Stack<Type>(); 
-    }
+        this.stack_types = new Stack<Type>();
+    }    
     
     /**
      * Push an operator in the operator stack. 
@@ -263,6 +267,13 @@ public class Expression{
      * @param name 
      */    
     public void load(String name){
+        if(Yaka.tabIdent.getFunction(name) != null){
+            Yaka.fctManager.pushFct(name);
+            return;
+        }
+
+
+
         Ident id = Yaka.tabIdent.searchIdent(name);
         
         if(id == null){
@@ -336,5 +347,11 @@ public class Expression{
         }
         
         this.stack_types = new Stack<Type>();
+    }
+
+    public void dropType(int n){
+        for(int i = 0 ; i < n ; i++){
+            this.stack_types.pop();
+        }
     }
 }

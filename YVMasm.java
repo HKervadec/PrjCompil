@@ -69,8 +69,8 @@ public class YVMasm{
         this.code_asm.add(".586");
         this.code_asm.add("");
         this.code_asm.add(".CODE");
-        this.code_asm.add("debut:");
-        this.code_asm.add("\tSTARTUPCODE");
+        /*this.code_asm.add("debut:");
+        this.code_asm.add("\tSTARTUPCODE");*/
     }
     
     
@@ -94,7 +94,7 @@ public class YVMasm{
      */
     public void translateToAsm(Instruction inst){
         if(inst.isLabel){
-            this.code_asm.add(inst.toString());
+            this.handleLabel(inst.toString());
             return;
         }
         
@@ -110,6 +110,9 @@ public class YVMasm{
                 break;
             case "ouvrePrinc":
                 this.ouvrePrinc(inst.option1);
+                break;
+            case "ouvreBloc":
+                this.ouvreBloc(inst.option1);
                 break;
             case "ecrireChaine":
                 this.ecrireChaine(inst.option2);
@@ -171,15 +174,51 @@ public class YVMasm{
             case "goto":
                 this.goto_(inst.option2);
                 break;
+            case "ireturn":
+                this.ireturn(inst.option1);
+                break;
+            case "fermeBloc":
+                this.fermeBloc(inst.option1);
+                break;
+            case "reserveRetour":
+                this.reserveRetour();
+                break;
+            case "call":
+                this.call(inst.option2);
+                break;
+            case "":
+                break;
             default:
+                Yaka.errorManager.printError(ErrorSource.YVMasm,
+                                            ErrorType.NO_TRANSLATION,
+                                            inst.inst);
                 break;
         }  
         this.code_asm.add("");
+    }
+
+
+    private void handleLabel(String label){
+        /* Did you know
+
+        That java is shit? */
+        // System.out.println(label + ": " + label.equals("main:"));
+        if(label.equals("main:")){
+            this.code_asm.add("debut:");
+            this.code_asm.add("\tSTARTUPCODE");
+            this.code_asm.add("");
+        }
+
+        this.code_asm.add(label);
     }
     
     private void ouvrePrinc(int offset){
         this.code_asm.add("\tmov bp,sp");
         this.code_asm.add("\tsub sp," + offset);
+    }
+
+    private void ouvreBloc(int offset){
+        this.code_asm.add("\tenter " + offset + ",0");
     }
     
     private void ecrireChaine(String s){
@@ -217,12 +256,16 @@ public class YVMasm{
     }
     
     private void iload(int offset){
-        this.code_asm.add("\tpush word ptr [bp" + offset + "]");
+        if(offset < 0){
+            this.code_asm.add("\tpush word ptr[bp" + offset + "]");
+        }else{
+            this.code_asm.add("\tpush word ptr[bp+" + offset + "]");
+        }
     }
     
     private void istore(int offset){
         this.code_asm.add("\tpop ax");
-        this.code_asm.add("\tmov word ptr [bp" + offset + "], ax");
+        this.code_asm.add("\tmov word ptr[bp" + offset + "], ax");
     }
     
     private void iconst(int value){
@@ -289,5 +332,23 @@ public class YVMasm{
     
     private void goto_(String label){
         this.code_asm.add("\tjmp " + label);
+    }
+
+    private void ireturn(int offset){
+        this.code_asm.add("\tpop ax");
+        this.code_asm.add("\tmov [bp+" + offset + "],ax");
+    }
+
+    private void fermeBloc(int size){
+        this.code_asm.add("\tleave");
+        this.code_asm.add("\tret " + size);
+    }
+
+    private void reserveRetour(){
+        this.code_asm.add("\tsub sp,2");
+    }
+
+    private void call(String f){
+        this.code_asm.add("\tcall " + f);
     }
 }

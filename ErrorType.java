@@ -12,7 +12,8 @@ public enum ErrorType{
     RAPING_CONST ("Trying to change the value of a constant."),
     TYPES_MISMATCH ("Types mismatch."),
     ALREADY_DECLARED ("Identifier already declared."),
-    UNEXPECTED_TYPE ("Type is not the one expected.");
+    UNEXPECTED_TYPE ("Type is not the one expected."),
+    NO_TRANSLATION ("No translation exist.");
     
     String message;
     ErrorType(String message){

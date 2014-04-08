@@ -1,0 +1,23 @@
+PROGRAMME iter2
+PRINCIPAL
+    VAR ENTIER s,a,b,i,j;
+        ECRIRE("a = ");
+        LIRE(a);
+        ALALIGNE;
+        ECRIRE("b = ");
+        LIRE(b);
+        ALALIGNE;
+        i = 0;
+        j = 0;
+        TANTQUE i <= a FAIRE
+            TANTQUE j <= b FAIRE
+                s = s + i;
+                j = j + 11;
+            FAIT;
+            i = i + 1;
+        FAIT;
+        ALALIGNE;
+        ECRIRE("s = ");
+        ECRIRE(s);
+FPRINCIPAL
+FPROGRAMME
