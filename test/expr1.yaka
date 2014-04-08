@@ -1,12 +1,14 @@
 PROGRAMME expr1
-CONST 
-	a=2,
-	b=a,
-	c=VRAI;
-	
-VAR ENTIER i,j,k,n,s;
- 	s=a+2*3;
- 	ECRIRE(s);
- 	ALALIGNE;
- 	ECRIRE(a+2*(2+1+b));
+PRINCIPAL
+	CONST 
+		a=2,
+		b=a,
+		c=VRAI;
+		
+	VAR ENTIER i,j,k,n,s;
+	 	s=a+2*3;
+	 	ECRIRE(s);
+	 	ALALIGNE;
+	 	ECRIRE(a+2*(2+1+b));
+FPRINCIPAL
 FPROGRAMME

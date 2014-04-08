@@ -1,19 +1,21 @@
 PROGRAMME max2
-VAR ENTIER i,j, max;
-    LIRE(i);
-    ALALIGNE;
-    LIRE(j);
-    ALALIGNE;
-    max = j;
-    SI i > j ALORS
-        max = i;
-        SI i > 10 ALORS
-            ECRIRE("toto est beau");
-            ALALIGNE;
-        FSI;
-    SINON
+PRINCIPAL
+    VAR ENTIER i,j, max;
+        LIRE(i);
+        ALALIGNE;
+        LIRE(j);
+        ALALIGNE;
         max = j;
-    FSI;
-    ECRIRE(max);
+        SI i > j ALORS
+            max = i;
+            SI i > 10 ALORS
+                ECRIRE("toto est beau");
+                ALALIGNE;
+            FSI;
+        SINON
+            max = j;
+        FSI;
+        ECRIRE(max);
+FPRINCIPAL
 FPROGRAMME
     

@@ -167,10 +167,42 @@ void analyse() : {}
         {yvm.add(new Instruction("entete"));}
     <ident>	
         {yvm.setOutput(YakaTokenManager.identLu);}
+    (declFonction())*
+    <PRINCIPAL> /* we'll have to change the entete yvm instruction*/
     bloc()
+    <FPRINCIPAL>
     <FPROGRAMME> 
         {yvm.add(new Instruction("queue"));}
 }
+
+void declFonction() : {}{
+        /*Clear local tabIdent */
+    type()
+        /*Type.pop*/
+    <FONCTION>
+    <ident> /* Do not forget to disallow main as function name*/
+    paramForms()
+        /* Compute param offset */
+        /* reserve memory */
+    bloc()
+    <FFONCTION>
+        /* free memory */
+}
+
+void paramForms() : {}{
+    "("
+    (paramForm()
+        ("," paramForm())*)?
+    ")"
+}
+
+void paramForm() : {}{
+    type() 
+    <ident>
+}
+
+
+
 
 void bloc() : {}{
     (declConst())*
@@ -215,6 +247,8 @@ void declVar() : {}
     )* ";"
 }
 
+
+/* Will need to change it. */
 void type() :{}
 {
     <ENTIER>
@@ -249,6 +283,7 @@ void instruction() : {}
     | ecriture()
     | iteration()
     | conditionnelle()
+    | retourne()
 }
 
 void affectation(): {}
@@ -282,7 +317,8 @@ void ecriture(): {}
         {yvm.add(new Instruction("aLaLigne"));}
 }
 
-/* 
+
+/* 
  * Iteration 
  */
 
@@ -318,6 +354,13 @@ void conditionnelle() : {}
     <FSI>
         {conditionnelle.putEndIf();}
 }   
+
+
+void retourne() : {}{
+    <RETOURNE>
+    expression()
+}
+
 
 
 /*
@@ -367,13 +410,23 @@ void valeur () : {}
         {expression.loadConst(YakaTokenManager.entierLu);
         expression.pushType(Type.INTEGER);}
     | <ident> 
-        {expression.load(YakaTokenManager.identLu);}
+            {expression.load(YakaTokenManager.identLu);
+                /* will push function call it needed */}
+        (argumentsFonction() /* pop call fct*/)?
     | <VRAI> 
         {expression.loadConst(-1);
         expression.pushType(Type.BOOLEAN);}
     | <FAUX>
         {expression.loadConst(0);
         expression.pushType(Type.BOOLEAN);}
+}
+
+void argumentsFonction() : {}{
+    "("
+    (expression()
+        (","
+            expression())*)?
+    ")"
 }
 
 void opRel() : {}
