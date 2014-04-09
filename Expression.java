@@ -350,13 +350,22 @@ public class Expression{
         this.stack_types = new Stack<Type>();
     }
 
-    public void dropType(int n){
+    public void dropType(int n, Stack<Type> st){
         for(int i = 0 ; i < n ; i++){
             try{
-                this.stack_types.pop();
+                Type exp = st.pop();
+                Type got = this.stack_types.pop();
+
+                if(exp != got){
+                    String option = "Expected: " + exp + "\n";
+                    option += "Got: " + got;
+                    Yaka.errorManager.printWarning(ErrorSource.COMPILER,
+                                                    ErrorType.PARAM_MISMATCH,
+                                                    option);
+                }
             }catch(Exception e){
                 Yaka.errorManager.printError(ErrorSource.COMPILER,
-                                            ErrorType.EXPRESSION_ERROR);
+                                            ErrorType.PARAM_ERROR);
             }
         }
     }

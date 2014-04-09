@@ -21,8 +21,8 @@ public class FctIdent{
 	}
 
 	public Stack<Type> getParams(){
-		return this.paramsType;
-		// return (Stack<Type>) this.paramsType.clone();
+		// return this.paramsType;
+		return (Stack<Type>) this.paramsType.clone();
 	}
 
 	public Type getResultType(){

@@ -13,7 +13,9 @@ public enum ErrorType{
     TYPES_MISMATCH ("Types mismatch."),
     ALREADY_DECLARED ("Identifier already declared."),
     UNEXPECTED_TYPE ("Type is not the one expected."),
-    NO_TRANSLATION ("No translation exist.");
+    NO_TRANSLATION ("No translation exist."),
+    PARAM_ERROR ("Not the right amount of argument. Do you want to buy some?"),
+    PARAM_MISMATCH ("Param has not the right type.");
     
     String message;
     ErrorType(String message){

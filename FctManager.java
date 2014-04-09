@@ -76,13 +76,17 @@ public class FctManager{
 
         FctIdent f = Yaka.tabIdent.getFunction(name);
         Type t = f.getResultType();
-        Yaka.expression.dropType(f.paramSize());
+        Yaka.expression.dropType(f.paramSize(), f.getParams());
         Yaka.expression.pushType(t);
 
         this.fctParams.pop();
     }
 
     public void popNCheck(){
-        Yaka.expression.check(this.fctParams.peek().pop());
+       /* try{
+            Yaka.expression.check(this.fctParams.peek().pop());
+        }catch(Exception e){
+            System.out.println(this.fctParams.peek());
+        }*/
     }
 }
