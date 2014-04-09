@@ -15,7 +15,9 @@ public enum ErrorType{
     UNEXPECTED_TYPE ("Type is not the one expected."),
     NO_TRANSLATION ("No translation exist."),
     PARAM_ERROR ("Not the right amount of argument. Do you want to buy some?"),
-    PARAM_MISMATCH ("Param has not the right type.");
+    PARAM_MISMATCH ("Param has not the right type."),
+	RETURN_MAIN ("Return is not allowed in the main"),
+	MUCH_PARAM ("Too much params.");
     
     String message;
     ErrorType(String message){

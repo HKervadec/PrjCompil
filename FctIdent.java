@@ -19,7 +19,7 @@ public class FctIdent{
 			// Yaka.errorManager.put
 		}
 	}
-
+	
 	public Stack<Type> getParams(){
 		// return this.paramsType;
 		return (Stack<Type>) this.paramsType.clone();

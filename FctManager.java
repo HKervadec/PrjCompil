@@ -5,10 +5,12 @@ public class FctManager{
 
     private Stack<String> fctCall;
     private Stack<Stack<Type>> fctParams;
+	private Stack paramsN; 
 
     public FctManager(){
         this.fctCall = new Stack<String>();
         this.fctParams = new Stack<Stack<Type>>();
+		this.paramsN = new Stack();
     }
 
 
@@ -50,6 +52,11 @@ public class FctManager{
     }
 
     public void iReturn(){
+		if(this.current_fct.getName().equals("main")){
+			Yaka.errorManager.printError(ErrorSource.COMPILER,
+                                            ErrorType.RETURN_MAIN);
+		}
+	
         int i = this.current_fct.paramSize();
         i *= 2;
         i += 4;
@@ -67,6 +74,8 @@ public class FctManager{
 
         FctIdent f = Yaka.tabIdent.getFunction(name);
         this.fctParams.push(f.getParams());
+		
+		this.paramsN.push(f.paramSize());
     }
 
     public void popFct(){
@@ -80,9 +89,16 @@ public class FctManager{
         Yaka.expression.pushType(t);
 
         this.fctParams.pop();
+		
+		if((int)this.paramsN.pop() < 0){
+			Yaka.errorManager.printError(ErrorSource.COMPILER,
+                                        ErrorType.MUCH_PARAM);
+		}
     }
 
     public void popNCheck(){
+		// int n = this.paramsN.pop();
+		this.paramsN.push((int)this.paramsN.pop() - 1);
        /* try{
             Yaka.expression.check(this.fctParams.peek().pop());
         }catch(Exception e){

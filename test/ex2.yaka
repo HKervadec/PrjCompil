@@ -18,7 +18,7 @@ VAR ENTIER i,j;
 VAR BOOLEEN b;
    i=0;j=0;
    TANTQUE j+1<>25 FAIRE
-      ECRIRE('                            ');
+      ECRIRE("                            ");
       TANTQUE i+1<>25 FAIRE
         b= trace(i+1,j+1);
          i=i+1

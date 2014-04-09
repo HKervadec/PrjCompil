@@ -42,7 +42,7 @@ VAR ENTIER  somme,nbf;
  ECRIRE(nbf);
  ECRIRE(" facons de changer ");
  ECRIRE(somme);
- ECRIRE(' francs.');
+ ECRIRE(" francs.");
  ALALIGNE
 FPRINCIPAL
 FPROGRAMME

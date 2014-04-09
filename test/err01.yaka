@@ -9,7 +9,7 @@ CONST  a=4,
       e=2, (*double definition*)
       g=h; (* h inconnu *)
 
-  a=e; (*affectation constante impossible*)
+  a=e (*affectation constante impossible*)
 FPRINCIPAL
 FPROGRAMME
 (*

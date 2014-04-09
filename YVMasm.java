@@ -274,7 +274,11 @@ public class YVMasm{
     
     private void istore(int offset){
         this.code_asm.add("\tpop ax");
-        this.code_asm.add("\tmov word ptr[bp" + offset + "], ax");
+		if(offset < 0){
+			this.code_asm.add("\tmov word ptr[bp" + offset + "], ax");
+		}else{
+			this.code_asm.add("\tmov word ptr[bp+" + offset + "], ax");
+		}
     }
     
     private void iconst(int value){

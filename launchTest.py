@@ -23,8 +23,8 @@ firstCleanup = ["*.class", "TokenMgrError.java", "ParseException.java",\
                 "Token.java", "SimpleCharStream.java", "Yaka.java"]
 
 shellV = False
-delC = "rm"
-delO = "-f"
+delC = "del"
+delO = ""
 
 def pPrint(ab): 
     # print(ab)
@@ -35,7 +35,7 @@ def pPrint(ab):
     print(ab)
 
 print("**** Compiling... ****")
-pPrint(check_output([delC, delO] + firstCleanup, shellV, stderr=STDOUT))
+# pPrint(check_output([delC, delO] + firstCleanup, shellV, stderr=STDOUT))
 try:
     pPrint(check_output("javacc Yaka.jj", shell=True, stderr=STDOUT))
 except CalledProcessError as e:
@@ -63,4 +63,4 @@ print()
 
     
 print("**** Cleaning Up ****")
-pPrint(check_output(delC + " -f *.asm *.yvm", shell=True,stderr=STDOUT))
+pPrint(check_output(delC + " *.asm *.yvm", shell=True,stderr=STDOUT))

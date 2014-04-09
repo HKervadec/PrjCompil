@@ -368,5 +368,10 @@ public class Expression{
                                             ErrorType.PARAM_ERROR);
             }
         }
+		
+		// if(!this.stack_types.empty()){
+			// Yaka.errorManager.printError(ErrorSource.COMPILER,
+										// ErrorType.PARAM_ERROR);
+		// }
     }
 }
