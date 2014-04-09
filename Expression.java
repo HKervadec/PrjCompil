@@ -58,6 +58,7 @@ public class Expression{
             Yaka.errorManager.printError(ErrorSource.COMPILER,
                                             ErrorType.MISSING_IDENTIFIER,
                                             name);
+            this.stack_ids.push(new Ident());
             return;
         }
         
@@ -351,7 +352,12 @@ public class Expression{
 
     public void dropType(int n){
         for(int i = 0 ; i < n ; i++){
-            this.stack_types.pop();
+            try{
+                this.stack_types.pop();
+            }catch(Exception e){
+                Yaka.errorManager.printError(ErrorSource.COMPILER,
+                                            ErrorType.EXPRESSION_ERROR);
+            }
         }
     }
 }

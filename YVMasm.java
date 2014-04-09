@@ -168,6 +168,15 @@ public class YVMasm{
 			case "ineg":
 				this.ineg();
 				break;
+            case "ior":
+                this.ior();
+                break;
+            case "iand":
+                this.iand();
+                break;
+            case "inot":
+                this.inot();
+                break;
             case "iffaux":
                 this.iffaux(inst.option2);
                 break;
@@ -350,5 +359,25 @@ public class YVMasm{
 
     private void call(String f){
         this.code_asm.add("\tcall " + f);
+    }
+
+    private void ior(){
+        this.code_asm.add("\tpop ax");
+        this.code_asm.add("\tpop bx");
+        this.code_asm.add("\tor ax,bx");
+        this.code_asm.add("\tpush ax");
+    }
+
+    private void iand(){
+        this.code_asm.add("\tpop ax");
+        this.code_asm.add("\tpop bx");
+        this.code_asm.add("\tand ax,bx");
+        this.code_asm.add("\tpush ax");
+    }
+
+    private void inot(){
+        this.code_asm.add("\tpop ax");
+        this.code_asm.add("\tnot ax");
+        this.code_asm.add("\tpush ax");
     }
 }

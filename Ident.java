@@ -10,6 +10,7 @@ public class Ident{
     private Type type;
     private int value;
     
+    public Ident(){}
     
     public Ident(boolean var, String id, Type type, int value){
         this.var = var;

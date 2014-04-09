@@ -11,8 +11,12 @@ testFiles = ["exemple_entree_sortie.yaka", "expr1.yaka", "expr2.yaka", "expr3.ya
             "exemple_iteration.yaka", "exemple_conditionnelle.yaka", "iter2.yaka",\
             "exemple_fct.yaka"]
 
-# testFiles = ["exemple_fct.yaka"]
+testFiles = ["exemple_fct.yaka", "ex1.yaka", "ex2.yaka", "ex3.yaka", \
+            "ex4.yaka", "ex5.yaka", "ex6.yaka", "ex7.yaka", \
+            "err01.yaka", "err02.yaka", "err03.yaka", "err04.yaka", \
+            "err05.yaka", "morpion.yaka"]
 # testFiles = []
+
 
 
 firstCleanup = ["*.class", "TokenMgrError.java", "ParseException.java",\
@@ -49,9 +53,11 @@ print("**** Launching tests ****")
 
 for file in testFiles:
     print(">>> " + file)
-    pPrint(check_output("java Yaka {0}/{1}".format(testFolder, file), \
-                        shell=True, stderr=STDOUT))
-    print()
+    try:
+        pPrint(check_output("java Yaka {0}/{1}".format(testFolder, file), \
+                            shell=True, stderr=STDOUT))
+    except CalledProcessError as e:
+        pPrint(e.output)
     
 print()
 

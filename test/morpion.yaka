@@ -1,0 +1,150 @@
+PROGRAMME morpion
+
+ENTIER FONCTION ecrire(ENTIER a)
+	SI a<>0 ALORS
+	 	ECRIRE(" ");
+		ECRIRE(a);
+		ECRIRE(" ");
+		SINON ECRIRE("   ");
+	FSI;
+	RETOURNE a
+FFONCTION
+
+ENTIER FONCTION affiche(ENTIER a1, ENTIER a2, ENTIER a3, ENTIER a4, ENTIER a5, ENTIER a6, ENTIER a7, ENTIER a8, ENTIER a9)
+	VAR ENTIER a;
+	ALALIGNE;
+	a=ecrire(a1);
+	ECRIRE("|");
+	a=ecrire(a2);
+	ECRIRE("|");
+	a=ecrire(a3);
+	ALALIGNE;
+	ECRIRE("___________");
+	ALALIGNE;
+	a=ecrire(a4);
+	ECRIRE("|");
+	a=ecrire(a5);
+	ECRIRE("|");
+	a=ecrire(a6);
+	ALALIGNE;
+	ECRIRE("___________");
+	ALALIGNE;
+	a=ecrire(a7);
+	ECRIRE("|");
+	a=ecrire(a8);
+	ECRIRE("|");
+	a=ecrire(a9);
+	ALALIGNE;
+	RETOURNE 0
+FFONCTION
+
+ENTIER FONCTION modulo (ENTIER i, ENTIER j)
+  TANTQUE i >= j FAIRE
+  i = i - j
+  FAIT;
+  RETOURNE i
+FFONCTION
+
+BOOLEEN FONCTION casevalide(ENTIER a, ENTIER a1, ENTIER a2, ENTIER a3, ENTIER a4, ENTIER a5, ENTIER a6, ENTIER a7, ENTIER a8, ENTIER a9)
+	SI ((a<1) OU (a>9)) ALORS RETOURNE FAUX
+		SINON SI ((a = 1) ET (a1 <> 0)) ALORS RETOURNE FAUX
+			  SINON SI ((a = 2) ET (a2 <> 0)) ALORS RETOURNE FAUX
+				    SINON SI ((a = 3) ET (a3 <> 0)) ALORS RETOURNE FAUX
+					      SINON SI ((a = 4) ET (a4 <> 0)) ALORS RETOURNE FAUX
+						        SINON SI ((a = 5) ET (a5 <> 0)) ALORS RETOURNE FAUX
+							          SINON SI ((a = 6) ET (a6 <> 0)) ALORS RETOURNE FAUX
+								 		    SINON SI ((a = 7) ET (a7 <> 0)) ALORS RETOURNE FAUX
+									  			  SINON SI ((a = 8) ET (a8 <> 0)) ALORS RETOURNE FAUX
+										  			    SINON SI ((a = 9) ET (a9 <> 0)) ALORS RETOURNE FAUX
+											  				  SINON RETOURNE VRAI
+											  				  FSI
+											  			FSI
+											  	  FSI
+											 FSI
+									   FSI
+								 FSI
+							FSI
+			     	 FSI
+		      FSI
+	FSI;				  
+FFONCTION
+
+ENTIER FONCTION agagne(ENTIER j, ENTIER a1, ENTIER a2, ENTIER a3, ENTIER a4, ENTIER a5, ENTIER a6, ENTIER a7, ENTIER a8, ENTIER a9)
+	SI ((a1=j) ET ((a2=j) ET (a3=j))) ALORS RETOURNE j
+		SINON SI ((a4=j) ET ((a5=j) ET (a6=j))) ALORS RETOURNE j
+  			  SINON SI ((a7=j) ET ((a8=j) ET (a9=j))) ALORS RETOURNE j
+				    SINON SI ((a1=j) ET ((a4=j) ET (a7=j))) ALORS RETOURNE j
+					      SINON SI ((a2=j) ET ((a5=j) ET (a8=j))) ALORS RETOURNE j
+							    SINON SI ((a3=j) ET ((a6=j) ET (a9=j))) ALORS RETOURNE j
+							          SINON SI ((a1=j) ET ((a5=j) ET (a9=j))) ALORS RETOURNE j
+								            SINON SI ((a3=j) ET ((a5=j) ET (a7=j))) ALORS RETOURNE j
+												  SINON RETOURNE 0
+												  FSI
+											FSI
+									  FSI
+								FSI
+						   FSI
+					FSI
+			    FSI
+	FSI		
+FFONCTION
+
+
+
+PRINCIPAL
+VAR ENTIER a1,a2,a3,a4,a5,a6,a7,a8,a9,joueur,case,nbcoups,gagne,a;
+	a1 = 0;a2 = 0;a3 = 0;a4 = 0;a5 = 0;a6 = 0;a7 = 0;a8 = 0;a9 = 0;
+	joueur=1;
+	case =0;
+	gagne =0;
+	nbcoups =0;
+	a = affiche(a1,a2,a3,a4,a5,a6,a7,a8,a9);
+	
+	TANTQUE ((nbcoups < 9) ET (gagne = 0)) FAIRE
+		ALALIGNE;
+		ECRIRE("Joueur ");
+		ECRIRE(joueur);
+		ECRIRE(" joue en : ");
+		LIRE(case);
+		TANTQUE NON(casevalide(case,a1,a2,a3,a4,a5,a6,a7,a8,a9)) FAIRE
+			ECRIRE("Case non valide, veuillez rejouer : "	);
+			LIRE(case);
+			ALALIGNE
+		FAIT;
+		
+		SI case=1 ALORS a1=joueur
+				  SINON SI case=2 ALORS a2=joueur
+							  SINON SI case=3 ALORS a3=joueur
+								    SINON SI case=4 ALORS a4=joueur
+									      SINON SI case=5 ALORS a5=joueur
+											    SINON SI case=6 ALORS a6=joueur
+													  SINON SI case=7 ALORS a7=joueur
+														    SINON SI case=8 ALORS a8=joueur
+																  SINON SI case=9 ALORS a9=joueur
+																  FSI
+															FSI
+													  FSI
+												FSI
+										   FSI
+									 FSI
+								FSI
+						FSI
+		FSI;
+											
+		a = affiche(a1,a2,a3,a4,a5,a6,a7,a8,a9);
+		gagne = agagne(joueur,a1,a2,a3,a4,a5,a6,a7,a8,a9);
+		nbcoups = nbcoups + 1;
+		SI joueur = 1 ALORS joueur = 2 SINON joueur = 1 FSI;
+	FAIT;
+	
+	SI gagne <> 0 ALORS
+		ECRIRE("Joueur ");
+		ECRIRE(gagne);
+		ECRIRE(" a gagne la partie.");
+		ALALIGNE;
+	SINON ECRIRE("Match nul")
+	FSI;
+			
+				
+FPRINCIPAL
+FPROGRAMME

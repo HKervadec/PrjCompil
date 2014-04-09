@@ -4,9 +4,11 @@ public class FctManager{
     private FctIdent current_fct;
 
     private Stack<String> fctCall;
+    private Stack<Stack<Type>> fctParams;
 
     public FctManager(){
         this.fctCall = new Stack<String>();
+        this.fctParams = new Stack<Stack<Type>>();
     }
 
 
@@ -53,12 +55,18 @@ public class FctManager{
         i += 4;
 
         Yaka.yvm.add(new Instruction("ireturn", i));
+
+        Type t = this.current_fct.getResultType();
+        Yaka.expression.check(t);
     }
 
     public void pushFct(String name){
         Yaka.yvm.add(new Instruction("reserveRetour"));
 
         this.fctCall.push(name);
+
+        FctIdent f = Yaka.tabIdent.getFunction(name);
+        this.fctParams.push(f.getParams());
     }
 
     public void popFct(){
@@ -70,5 +78,11 @@ public class FctManager{
         Type t = f.getResultType();
         Yaka.expression.dropType(f.paramSize());
         Yaka.expression.pushType(t);
+
+        this.fctParams.pop();
+    }
+
+    public void popNCheck(){
+        Yaka.expression.check(this.fctParams.peek().pop());
     }
 }

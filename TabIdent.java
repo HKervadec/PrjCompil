@@ -93,7 +93,9 @@ public class TabIdent{
             this.fct.put(name, f);
             // System.out.println("put " + f);
         }else{
-            // Yaka.errorManager.....
+            Yaka.errorManager.printError(ErrorSource.COMPILER,
+                                            ErrorType.ALREADY_DECLARED,
+                                            name);
         }
     }
 

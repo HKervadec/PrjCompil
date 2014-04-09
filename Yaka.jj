@@ -447,8 +447,11 @@ void valeur () : {}
 void argumentsFonction() : {}{
     "("
     (expression()
+        // {fctManager.popNCheck();}
         (","
-            expression())*)?
+            expression()
+                // {fctManager.popNCheck();}
+                )*)?
     ")"
 }
 
