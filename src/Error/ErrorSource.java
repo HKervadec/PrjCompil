@@ -1,3 +1,5 @@
+package Error;
+
 /**
  * The source of an error is usefull to know where the error come from.
  * Actually, it is used to separate the compilation error, and the managing
@@ -17,7 +19,7 @@ public enum ErrorSource{
         this.message = message;
     }
     
-    String getMessage(){
+    public String getMessage(){
         return this.message;
     }
 }

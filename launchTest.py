@@ -34,17 +34,17 @@ def pPrint(ab):
     ab = ab.replace('\n', '\n\t')
     print(ab)
 
-print("**** Compiling... ****")
+# print("**** Compiling... ****")
 # pPrint(check_output([delC, delO] + firstCleanup, shellV, stderr=STDOUT))
-try:
-    pPrint(check_output("javacc Yaka.jj", shell=True, stderr=STDOUT))
-except CalledProcessError as e:
-    pPrint(e.output)
-    exit("Javacc il est cassé")
+# try:
+    # pPrint(check_output("javacc Yaka.jj", shell=True, stderr=STDOUT))
+# except CalledProcessError as e:
+    # pPrint(e.output)
+    # exit("Javacc il est cassé")
 
-pPrint(check_output("javac *.java", shell=True))
+# pPrint(check_output("javac *.java", shell=True))
 
-print()
+# print()
 
 
 
@@ -54,7 +54,7 @@ print("**** Launching tests ****")
 for file in testFiles:
     print(">>> " + file)
     try:
-        pPrint(check_output("java Yaka {0}/{1}".format(testFolder, file), \
+        pPrint(check_output("java -cp class Core.Yaka {0}/{1}".format(testFolder, file), \
                             shell=True, stderr=STDOUT))
     except CalledProcessError as e:
         pPrint(e.output)

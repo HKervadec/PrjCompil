@@ -1,3 +1,5 @@
+package Else;
+
 import java.util.Stack;
 
 public class TypeMem{

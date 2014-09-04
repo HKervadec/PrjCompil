@@ -1,4 +1,14 @@
+package Manager;
+
 import java.util.Stack;
+
+import Core.Yaka;
+import Else.Type;
+import Else.Ident;
+import Else.FctIdent;
+import Else.Instruction;
+import Error.ErrorType;
+import Error.ErrorSource;
 
 public class FctManager{
     private FctIdent current_fct;

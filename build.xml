@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="Mittelwerk Compiler" default="info"  xmlns:doxygen="antlib:org.doxygen.tools">
+	<property name="src.dir" location="src" />
+	<property name="class.dir" location="class" />
+	<property name="doc.dir" location="doc" />
+	<property name="javacc.dir" location="C:\Program Files (x86)\Java\javacc-5.0" />
+
+	<target name="grammar" depends="clean">
+		<mkdir dir="${src.dir}/Core" />
+		<javacc target="${src.dir}/Yaka.jj" javacchome="${javacc.dir}" 
+			outputdirectory="${src.dir}/Core">
+		</javacc>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${class.dir}" />
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${class.dir}"></javac>
+	</target>
+    
+    <target name="all" depends="grammar, compile">
+    </target>
+	
+	<target name="info">
+		<echo>Prj compilo 3info INSA Rennes.</echo>
+	</target>
+
+	<target name="clean">
+		<delete dir="${class.dir}" />
+		<delete dir="${src.dir}/Core" />
+		<delete dir="${doc.dir}" />
+	</target>
+    
+    <target name="doc" depends="clean, grammar, clean">
+		<mkdir dir="${doc.dir}" />
+		
+		<doxygen:doxygen>
+			<property name="INPUT" value="${src.dir}"></property>
+			<property name="GENERATE_LATEX" value="YES"></property>
+			<property name="USE_PDFLATEX" value="YES"></property>
+			<property name="GENERATE_HTML" value="NO"></property>
+		</doxygen:doxygen>
+	</target>
+</project>
